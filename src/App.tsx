@@ -8,6 +8,8 @@ import Footer from "./components/Footer";
 import Home from "./components/Home";
 import PasswordReset from "./components/PassReset";
 import CreateProduct from "./components/Create";
+import MarketPlace from "./components/Market";
+import ProductPage from "./components/ProductDetail";
 
 function App() {
   return (
@@ -17,8 +19,10 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/sign-in" element={<SignIn />} />
-        <Route path="/pass-reset" element={<PasswordReset />} />
         <Route path="/create" element={<CreateProduct />}/>
+        <Route path="/market-place" element={<MarketPlace />} />
+        <Route path="/product-details/:id" element={<ProductPage />} />
+        <Route path="/pass-reset" element={<PasswordReset />} />
         <Route path="*" element={<NoPage />} />
       </Routes>
       <Footer />

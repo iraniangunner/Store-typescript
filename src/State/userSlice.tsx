@@ -3,9 +3,9 @@ import { createSlice } from "@reduxjs/toolkit";
 export const userSlice = createSlice({
   name: "profile",
   initialState: {
-    email : "",
-    username : "",
-    password : "",
+    email: "",
+    username: "",
+    password: "",
     confirmPass: "",
   },
   reducers: {
@@ -24,11 +24,12 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setEmail, setUsername, setPassword, setConfirm } = userSlice.actions;
+export const { setEmail, setUsername, setPassword, setConfirm } =
+  userSlice.actions;
 
-export const email = (state:any) => state.profile.email;
-export const userName = (state:any) => state.profile.username;
-export const passWord = (state:any) => state.profile.password;
-export const passConfirm = (state:any) => state.profile.confirmPass;
+export const email = (state: any) => state.profile.email;
+export const userName = (state: any) => state.profile.username;
+export const passWord = (state: any) => state.profile.password;
+export const passConfirm = (state: any) => state.profile.confirmPass;
 
 export default userSlice.reducer;

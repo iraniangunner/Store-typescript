@@ -5,18 +5,12 @@ import { IoMdTrash } from "react-icons/io";
 import { RiErrorWarningLine } from "react-icons/ri";
 import ImageUploading, { ImageListType } from "react-images-uploading";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  description,
-  setDesc,
-  setPrice,
-  setTitle,
-  setUrl,
-  title,
-} from "../State/formSlice";
+import { product, setProduct } from "../State/formSlice";
+import axios from "axios";
 
 const CreateProduct = () => {
   const dispatch = useDispatch();
-  // const userDesc = useSelector(description);
+  const userProduct = useSelector(product);
 
   interface Form {
     productTitle: string;
@@ -38,12 +32,11 @@ const CreateProduct = () => {
 
   const submitHandler = (e: any): void => {
     e.preventDefault();
-    //  dispatch(setUrl(images));
-    // dispatch(setTitle(formValues.productTitle));
-    dispatch(setDesc(formValues.productDesc));
-    // dispatch(setPrice(formValues.price));
-    // setFinalData({...formValues , files : images});
-    // console.log(finalData);
+    // dispatch(setProduct({...formValues , files:images}));
+    axios.post("http://localhost:3001/products", {
+      ...formValues,
+      files: images,
+    });
   };
 
   const maxNumber = 10;

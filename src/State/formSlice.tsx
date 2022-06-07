@@ -1,34 +1,26 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+interface Product{
+  productTitle: string
+    productDesc: string
+    productPrice: string
+  files:any[]
+}
+
 export const formSlice = createSlice({
   name: "form",
   initialState: {
-    url: "",
-    title: "",
-    description: "",
-    price: "",
+    product:[{}]
   },
   reducers: {
-    setUrl: (state, action) => {
-      state.url = action.payload;
-    },
-    setTitle: (state, action) => {
-      state.title = action.payload;
-    },
-    setDesc: (state, action) => {
-      state.description = action.payload;
-    },
-    setPrice: (state, action) => {
-      state.price = action.payload;
+    setProduct: (state, action) => {
+     state.product = [...state.product, action.payload]
     },
   },
 });
 
-export const { setUrl, setTitle, setDesc, setPrice } = formSlice.actions;
+export const { setProduct } = formSlice.actions;
 
-export const url = (state:any) => state.form.url;
-export const title = (state:any) => state.form.title;
-export const description = (state:any) => state.form.description;
-export const price = (state:any) => state.form.price;
+export const product = (state: any) => state.form.product;
 
 export default formSlice.reducer;

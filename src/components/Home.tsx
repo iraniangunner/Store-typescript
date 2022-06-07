@@ -1,8 +1,18 @@
 import bitcoin from "../images/bit.png";
 import bitATM from "../images/bit-ATM.png";
 import wallet from "../images/wallet.png";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
 
 const Home = () => {
+
+  // const[images , setImages] = useState([])
+
+  // useEffect(() => {
+  //     axios.get("http://localhost:3001/products/").then(res => console.log(res.data)).catch(err => console.log(err))
+  // },[])
+
   return (
     <>
       <div className="flex flex-col md:flex-row justify-center items-center">
@@ -53,6 +63,7 @@ const Home = () => {
           <img src={wallet} alt="Bitcoin Wallet" />
         </div>
       </div>
+      {/* {images.length && <img src={images[0]["data_url"]} alt="Bitcoin Wallet" />} */}
     </>
   );
 };

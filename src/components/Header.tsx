@@ -69,6 +69,14 @@ const Header = () => {
               </Link>
             </li>
             <li className="flex justify-center items-center mx-2">
+              <Link
+                className="relative px-2 py-6 text-gray-900 dark:text-gray-50 after:absolute after:bottom-[10px] after:inset-x-0 after:m-auto after:w-0 after:content-['.'] after:text-transparent after:bg-[#aaa] after:h-[1px] after:transition[width] after:duration-[0.5s] hover:text-[#555] hover:after:w-full"
+                to="/market-place"
+              >
+                Marketplace
+              </Link>
+            </li>
+            <li className="flex justify-center items-center mx-2">
               <a
                 className="relative px-2 py-6 text-gray-900 dark:text-gray-50 after:absolute after:bottom-[10px] after:inset-x-0 after:m-auto after:w-0 after:content-['.'] after:text-transparent after:bg-[#aaa] after:h-[1px] after:transition[width] after:duration-[0.5s] hover:text-[#555] hover:after:w-full"
                 href="https://bscscan.com/token/0x80e7dc4e726E052b0dB04ec8b506596458809c11"
@@ -121,7 +129,7 @@ pointer-events-none md:flex items-center justify-center h-[29px] w-[29px] rounde
             </li>
           </ul>
         </div>
-        <div className="menuIcon text-gray-900 dark:text-gray-50 inline-block text-gray-900 rounded-md mr-0 ml-auto md:hidden">
+        <div className="menuIcon dark:text-gray-50 inline-block text-gray-900 rounded-md mr-0 ml-auto md:hidden">
           <Hamburger
             toggled={isOpen}
             onToggle={() => setIsOpen(!isOpen)}
@@ -149,6 +157,14 @@ pointer-events-none md:flex items-center justify-center h-[29px] w-[29px] rounde
                 to="/create"
               >
                 Create
+              </Link>
+            </li>
+            <li className="cursor-pointer hover:bg-gray-500 transition-all ease-linear duration-200 mx-3 p-3">
+              <Link
+                className="block text-gray-900 dark:text-gray-50"
+                to="/market-place"
+              >
+                Marketplace
               </Link>
             </li>
             <li className="cursor-pointer hover:bg-gray-500 transition-all ease-linear duration-200 mx-3 p-3">
