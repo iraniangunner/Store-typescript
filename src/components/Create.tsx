@@ -32,7 +32,6 @@ const CreateProduct = () => {
 
   const submitHandler = (e: any): void => {
     e.preventDefault();
-    // dispatch(setProduct({...formValues , files:images}));
     axios.post("http://localhost:3001/products", {
       ...formValues,
       files: images,

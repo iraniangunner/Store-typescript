@@ -25,10 +25,11 @@ const MarketPlace = () => {
                     className="flex justify-between w-full h-full bg-slate-100 dark:bg-gray-800 rounded-[4px] border border-solid border-[#ccc] dark:border-none hover:shadow-md transition-all p-4"
                   >
                     <ProductCard
+                      productLinkAddress={`/product-details/${item["id"]}`}
                       productName={item["productTitle"]}
                       productPrice={item["productPrice"]}
                       productDesc={item["productDesc"]}
-                      productUrl={item["files"][0]["data_url"]}
+                      productImageUrl={item["files"][0]["data_url"]}
                     />
                   </Link>
                 </div>
