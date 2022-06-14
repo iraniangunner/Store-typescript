@@ -113,17 +113,17 @@ pointer-events-none md:flex items-center justify-center h-[29px] w-[29px] rounde
               </div>
             </li>
 
-            <li className="flex justify-center items-center mx-2">
-              <Link to="/sign-in">
-                <button className="rounded-3xl bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 cursor-pointer">
-                  SignIn
+            <li className="flex justify-center items-cente mx-2">
+              <Link to="/sign-up">
+                <button className="rounded-lg bg-gray-200 text-gray-900 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 transition-all dark:text-gray-50 py-2 px-4 cursor-pointer">
+                  SignUp
                 </button>
               </Link>
             </li>
-            <li className="flex justify-center items-cente mx-2">
-              <Link to="/sign-up">
-                <button className="rounded-3xl bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 cursor-pointer">
-                  SignUp
+            <li className="flex justify-center items-center mx-2">
+              <Link to="/sign-in">
+                <button className="rounded-lg bg-blue-500 hover:bg-blue-700 transition-all text-white py-2 px-4 cursor-pointer">
+                  LogIn
                 </button>
               </Link>
             </li>
@@ -204,21 +204,21 @@ pointer-events-none flex items-center justify-center h-[29px] w-[29px] rounded-f
               </div>
             </li>
             <div className="flex items-center py-4 pl-4">
-              <li className="hover:text-gray-900 transition-all ease-linear duration-200">
+            <li className="hover:text-gray-900 transition-all ease-linear duration-200">
+                <Link to="/sign-up" onClick={() => setIsOpen(false)}>
+                  <button className="rounded-lg bg-gray-200 text-gray-900 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 transition-all dark:text-gray-50 py-2 px-4 cursor-pointer">
+                    SignUp
+                  </button>
+                </Link>
+              </li>
+              <li className="hover:text-gray-900 transition-all ease-linear duration-200 ml-3">
                 <Link
                   className="mr-3"
                   to="/sign-in"
                   onClick={() => setIsOpen(false)}
                 >
-                  <button className="rounded-3xl bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 cursor-pointer">
-                    SignIn
-                  </button>
-                </Link>
-              </li>
-              <li className="hover:text-gray-900 transition-all ease-linear duration-200 ml-3">
-                <Link to="/sign-up" onClick={() => setIsOpen(false)}>
-                  <button className="rounded-3xl bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 cursor-pointer">
-                    SignUp
+                  <button className="rounded-lg bg-blue-500 hover:bg-blue-700 text-white transition-all py-2 px-4 cursor-pointer">
+                    LogIn
                   </button>
                 </Link>
               </li>

@@ -25,7 +25,7 @@ const ProductCard = (props: any) => {
         <div className="flex flex-wrap justify-between items-center">
           <div className="flex flex-col mb-3 mr-3">
             <p className="text-[#62666d] dark:text-slate-400 mb-1 text-sm">
-              Price
+              Current bid
             </p>
             <p className="text-gray-900 dark:text-slate-100 flex items-center">
               <FaEthereum className="mr-1" />

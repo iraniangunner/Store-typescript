@@ -6,3 +6,15 @@ a {
   text-decoration: none;
   color: #fff;
 }
+
+.carousel .thumb {
+  aspect-ratio: 1/1;
+}
+
+.thumbs-wrapper .control-prev.control-arrow:before{
+  border-right-color: #878383 !important;
+}
+
+.thumbs-wrapper .control-next.control-arrow:before{
+  border-left-color: #878383 !important;
+}

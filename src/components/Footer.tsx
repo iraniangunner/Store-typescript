@@ -2,7 +2,7 @@
 
 const Footer = () => {
   return (
-    <footer>
+    <footer className="mt-8">
       <ul className="w-full p-6 bg-gray-50 dark:bg-gray-900 ">
         <li className="flex flex-wrap">
           <div className="flex sm:justify-center flex-[0_0_50%] max-w-[50%] sm:flex-[0_0_25%] sm:max-w-[25%] mb-4">

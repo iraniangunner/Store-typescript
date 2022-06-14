@@ -11,6 +11,7 @@ import CreateProduct from "./components/Create";
 import MarketPlace from "./components/Market";
 import ProductPage from "./components/ProductDetail";
 
+
 function App() {
   return (
     <div className="App dark:bg-gray-900 dark:text-gray-50">
