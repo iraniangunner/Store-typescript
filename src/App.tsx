@@ -10,6 +10,7 @@ import PasswordReset from "./components/PassReset";
 import CreateProduct from "./components/Create";
 import MarketPlace from "./components/Market";
 import ProductPage from "./components/ProductDetail";
+import ShoppingCart from "./components/ShoppingCart";
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/create" element={<CreateProduct />}/>
         <Route path="/market-place" element={<MarketPlace />} />
+        <Route path="/shopping-cart" element={<ShoppingCart />} />
         <Route path="/product-details/:id" element={<ProductPage />} />
         <Route path="/pass-reset" element={<PasswordReset />} />
         <Route path="*" element={<NoPage />} />

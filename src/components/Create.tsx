@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { product, setProduct } from "../State/formSlice";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { createObjectURL, base64StringToBlob } from "blob-util";
+import Resizer from "react-image-file-resizer";
 
 const CreateProduct = () => {
   // const dispatch = useDispatch();
@@ -38,8 +38,8 @@ const CreateProduct = () => {
   };
 
   const submitHandler = (e: any): void => {
-    e.preventDefault();
     setIsPosted(true);
+    e.preventDefault();
 
     axios
       .post("http://localhost:3001/products", {
@@ -56,12 +56,38 @@ const CreateProduct = () => {
       });
   };
 
+  // resize file for better performance
+  const resizeFile = (file: any) =>
+    new Promise((resolve) => {
+      Resizer.imageFileResizer(
+        file,
+        300,
+        300,
+        "JPEG",
+        100,
+        0,
+        (uri) => {
+          resolve(uri);
+        },
+        "base64"
+      );
+    });
+
   const maxNumber = 10;
 
   const onChange = (
     imageList: ImageListType,
     addUpdateIndex: number[] | undefined
   ) => {
+    imageList.forEach(async (item) => {
+      try {
+        const file = item.file;
+        const image = await resizeFile(file);
+        item.data_url = image;
+      } catch (err) {
+        console.log(err);
+      }
+    });
     setImages(imageList as never[]);
   };
 
@@ -115,6 +141,7 @@ const CreateProduct = () => {
                     className="relative rounded-[4px] aspect-square"
                   >
                     <button
+                      type="button"
                       className="absolute top-[4px] right-[4px] bg-[rgba(0,0,0,.32)] hover:bg-[rgba(0,0,0,.20)] dark:hover:bg-[rgba(0,0,0,.56)] transition-all rounded-[2px] flex justify-center items-center w-[1.375rem] h-[1.375rem]"
                       onClick={() => onImageRemove(index)}
                     >

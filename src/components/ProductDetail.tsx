@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 import { createObjectURL, base64StringToBlob } from "blob-util";
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -41,6 +42,7 @@ const ProductPage = () => {
                   <div className="aspect-square" key={index}>
                     <img
                       src={item["data_url"]}
+                      loading="lazy"
                       alt="image"
                       className="object-cover w-full h-full"
                     />

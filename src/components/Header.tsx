@@ -5,6 +5,7 @@ import { BsFillMoonFill } from "react-icons/bs";
 import { BiSun } from "react-icons/bi";
 import { Switch } from "@headlessui/react";
 import logo from "../images/NFT logo.png";
+import { FaShoppingBag } from "react-icons/fa";
 
 const Header = () => {
   const { pathname } = useLocation();
@@ -77,13 +78,9 @@ const Header = () => {
               </Link>
             </li>
             <li className="flex justify-center items-center mx-2">
-              <a
-                className="relative px-2 py-6 text-gray-900 dark:text-gray-50 after:absolute after:bottom-[10px] after:inset-x-0 after:m-auto after:w-0 after:content-['.'] after:text-transparent after:bg-[#aaa] after:h-[1px] after:transition[width] after:duration-[0.5s] hover:text-[#555] hover:after:w-full"
-                href="https://bscscan.com/token/0x80e7dc4e726E052b0dB04ec8b506596458809c11"
-                target="_blank"
-              >
-                WhitePaper
-              </a>
+              <Link to="/shopping-cart" className="px-2 py-6 text-gray-900 dark:text-gray-50">
+                <FaShoppingBag size={20} />
+              </Link>
             </li>
             <li className="flex justify-center items-center mx-2">
               <div className="text-base">
@@ -204,7 +201,7 @@ pointer-events-none flex items-center justify-center h-[29px] w-[29px] rounded-f
               </div>
             </li>
             <div className="flex items-center py-4 pl-4">
-            <li className="hover:text-gray-900 transition-all ease-linear duration-200">
+              <li className="hover:text-gray-900 transition-all ease-linear duration-200">
                 <Link to="/sign-up" onClick={() => setIsOpen(false)}>
                   <button className="rounded-lg bg-gray-200 text-gray-900 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 transition-all dark:text-gray-50 py-2 px-4 cursor-pointer">
                     SignUp

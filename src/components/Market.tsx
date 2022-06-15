@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import ProductCard from "./ProductCard";
+import ProductCard from "./ProductCart";
 import { createObjectURL, base64StringToBlob } from "blob-util";
+
 
 const MarketPlace = () => {
   const [products, setProducts] = useState([]);
