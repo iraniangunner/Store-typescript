@@ -75,19 +75,19 @@ const CreateProduct = () => {
 
   const maxNumber = 10;
 
-  const onChange = (
+
+  const onChange = async (
     imageList: ImageListType,
     addUpdateIndex: number[] | undefined
   ) => {
-    imageList.forEach(async (item) => {
-      try {
-        const file = item.file;
-        const image = await resizeFile(file);
-        item.data_url = image;
-      } catch (err) {
-        console.log(err);
-      }
-    });
+    try {
+      const currentFile = addUpdateIndex !== undefined ? addUpdateIndex[0] : 0;
+      const file = imageList[currentFile].file;
+      const image = await resizeFile(file);
+      imageList[currentFile].data_url = image;
+    } catch (err) {
+      console.log(err);
+    }
     setImages(imageList as never[]);
   };
 
