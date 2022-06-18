@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import ProductCard from "./ProductCart";
-import { createObjectURL, base64StringToBlob } from "blob-util";
-
+import ProductCard from "./ProductCard";
+import Loader from "./Loader";
 
 const MarketPlace = () => {
   const [products, setProducts] = useState([]);
@@ -41,7 +40,7 @@ const MarketPlace = () => {
           })}
         </div>
       ) : !products.length && isLoaded ? (
-        <p>Data is loading...</p>
+        <Loader />
       ) : (
         <p>Internal server error!</p>
       )}

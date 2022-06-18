@@ -40,7 +40,6 @@ const ProductPage = () => {
                   <div className="aspect-square" key={index}>
                     <img
                       src={item["data_url"]}
-                      // loading="lazy"
                       alt="image"
                       className="object-cover w-full h-full"
                     />

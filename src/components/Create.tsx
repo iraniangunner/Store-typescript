@@ -166,7 +166,7 @@ const CreateProduct = () => {
       <div className="mb-[30px]">
         <label
           htmlFor="title"
-          className="block text-[14px] mb-[8px] font-[400] dark:text-white"
+          className="block text-[14px] mb-[8px] font-[400]"
         >
           Product Title
         </label>
@@ -176,13 +176,13 @@ const CreateProduct = () => {
           onChange={changeHandler}
           name="productTitle"
           placeholder="Enter product title"
-          className="block w-full bg-white px-[12px] py-[8px] text-[#24292f] text-[14px] border border-solid focus:outline-none rounded-lg"
+          className="block w-full bg-white dark:bg-gray-800  px-[12px] py-[8px] text-[#24292f] dark:text-slate-50 text-[14px] border border-solid focus:outline-none rounded-lg"
         />
       </div>
       <div className="mb-[30px]">
         <label
           htmlFor="title"
-          className="block text-[14px] mb-[8px] font-[400] dark:text-white"
+          className="block text-[14px] mb-[8px] font-[400]"
         >
           Product Price
         </label>
@@ -191,14 +191,14 @@ const CreateProduct = () => {
           id="title"
           onChange={changeHandler}
           name="productPrice"
-          placeholder="Enter product title"
-          className="block w-full bg-white px-[12px] py-[8px] text-[#24292f] text-[14px] border border-solid focus:outline-none rounded-lg"
+          placeholder="Enter product price"
+          className="block w-full bg-white dark:bg-gray-800 px-[12px] py-[8px] text-[#24292f] dark:text-slate-50 text-[14px] border border-solid focus:outline-none rounded-lg"
         />
       </div>
       <div className="mb-[30px]">
         <label
           htmlFor="desc"
-          className="block text-[14px] mb-[8px] font-[400] dark:text-white"
+          className="block text-[14px] mb-[8px] font-[400]"
         >
           Description
         </label>
@@ -209,7 +209,7 @@ const CreateProduct = () => {
           maxRows={10}
           name="productDesc"
           placeholder="Explain your product"
-          className="block w-full resize-none bg-white px-[12px] py-[8px] text-[#24292f] text-[14px] border border-solid focus:outline-none rounded-lg"
+          className="block w-full resize-none bg-white dark:bg-gray-800 px-[12px] py-[8px] text-[#24292f] dark:text-slate-50 text-[14px] border border-solid focus:outline-none rounded-lg"
         />
       </div>
       <div className="mb-[30px] flex justify-center items-center">

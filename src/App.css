@@ -11,6 +11,10 @@ a {
   aspect-ratio: 1/1;
 }
 
+.carousel-slider{
+  border: 1px solid #ccc;
+}
+
 .thumbs-wrapper .control-prev.control-arrow:before{
   border-right-color: #878383 !important;
 }

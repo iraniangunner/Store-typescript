@@ -1,13 +1,13 @@
-
-
 const Footer = () => {
   return (
-    <footer className="mt-8">
+    <footer className="mt-8 dark:border-t-[1px] dark:border-solid dark:border-gray-700">
       <ul className="w-full p-6 bg-gray-50 dark:bg-gray-900 ">
         <li className="flex flex-wrap">
           <div className="flex sm:justify-center flex-[0_0_50%] max-w-[50%] sm:flex-[0_0_25%] sm:max-w-[25%] mb-4">
             <ul className="flex flex-col items-start p-2">
-              <h3 className="text-xl text-gray-900 dark:text-gray-50">Company</h3>
+              <h3 className="text-xl text-gray-900 dark:text-gray-50">
+                Company
+              </h3>
               <li className="mt-2">
                 <a
                   href="http://bocoin.info/portfolio-items/token-details/"
@@ -66,7 +66,9 @@ const Footer = () => {
           </div>
           <div className="flex sm:justify-center flex-[0_0_50%] max-w-[50%] sm:flex-[0_0_25%] sm:max-w-[25%] mb-4">
             <ul className="flex flex-col items-start p-2">
-              <h3 className="text-xl text-gray-900 dark:text-gray-50">Features</h3>
+              <h3 className="text-xl text-gray-900 dark:text-gray-50">
+                Features
+              </h3>
               <li className="mt-2">
                 <a
                   href="http://bocoin.info/portfolio-items/token-details/"
@@ -107,7 +109,10 @@ const Footer = () => {
           </div>
           <div className="flex sm:justify-center flex-[0_0_50%] max-w-[50%] sm:flex-[0_0_25%] sm:max-w-[25%]">
             <ul className="flex flex-col items-start p-2">
-              <h3 className="text-xl text-gray-900 dark:text-gray-50"> CONTACT US TODAY</h3>
+              <h3 className="text-xl text-gray-900 dark:text-gray-50">
+                {" "}
+                CONTACT US TODAY
+              </h3>
               <li className="mt-2">
                 <a
                   href="http://bocoin.info/frozens/"
@@ -139,7 +144,9 @@ const Footer = () => {
           </div>
           <div className="flex sm:justify-center flex-[0_0_50%] max-w-[50%] sm:flex-[0_0_25%] sm:max-w-[25%]">
             <ul className="flex flex-col items-start p-2">
-              <h3 className="text-xl text-gray-900 dark:text-gray-50">ABOUT US</h3>
+              <h3 className="text-xl text-gray-900 dark:text-gray-50">
+                ABOUT US
+              </h3>
               <li className="mt-2">
                 <a
                   href="http://bocoin.info/portfolio-items/token-details/"

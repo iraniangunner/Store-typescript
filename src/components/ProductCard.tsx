@@ -9,14 +9,12 @@ const ProductCard = (props: any) => {
         <LazyLoadImage
           src={props.productImageUrl}
           alt="image"
-          // loading="lazy"
           className="w-full object-cover rounded-[4px] aspect-square"
         />
         <div className="w-[50px] h-[50px] rounded-full absolute left-[50%] translate-x-[-50%] bottom-[-25px] p-[2px] border border-solid border-[#ccc] bg-slate-100 dark:bg-gray-800">
           <LazyLoadImage
             src={props.productImageUrl}
             alt="image"
-            // loading="lazy"
             className="w-full h-full rounded-full object-cover"
           />
         </div>
