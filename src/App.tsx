@@ -17,7 +17,7 @@ import axios from "axios";
 function App() {
   const [quantity, setQuantity] = useState("");
   const [buttonStatus, setButtonStatus] = useState<string>("");
-  const [cartProducts , setCartProducts] = useState([]);
+  // const [cartProducts , setCartProducts] = useState([]);
 
   return (
     <div className="App dark:bg-gray-900 dark:text-gray-50">

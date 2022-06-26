@@ -6,10 +6,12 @@ import { BiSun } from "react-icons/bi";
 import { Switch } from "@headlessui/react";
 import logo from "../images/NFT logo.png";
 import { FaShoppingBag } from "react-icons/fa";
+import { IoIosArrowForward } from "react-icons/io";
 import axios from "axios";
 
 const Header = (props: any) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [cartProducts, setCartProducts] = useState([]);
 
   const [theme, setTheme] = useState<boolean>(
     localStorage.getItem("theme") === "dark" ? true : false
@@ -28,9 +30,12 @@ const Header = (props: any) => {
   useEffect(() => {
     axios
       .get("http://localhost:3001/cart")
-      .then((res) => props.setQuantity(res.data.length))
+      .then((res) => {
+        props.setQuantity(res.data.length);
+        setCartProducts(res.data);
+      })
       .catch((err) => props.setQuantity(""));
-  }, []);
+  }, [props.quantity]);
 
   useEffect(() => {
     if (theme) {
@@ -45,14 +50,6 @@ const Header = (props: any) => {
   useEffect(() => {
     setIsOpen(false);
   }, [pathname]);
-
-  // useEffect(() => {
-  //   if (isOpen) {
-  //     document.body.style.overflow = "hidden";
-  //   }else{
-  //     document.body.style.overflow = "auto";
-  //   }
-  // },[isOpen])
 
   const themeSwitch = () => {
     setTheme(!theme);
@@ -95,6 +92,7 @@ const Header = (props: any) => {
             <li className="flex justify-center items-center mx-2 rounded-lg">
               <label
                 htmlFor="my-modal-4"
+                // onClick={getProductsHandler}
                 className="p-3 text-gray-900 dark:text-slate-50 relative cursor-pointer btn modal-button bg-slate-200 dark:bg-gray-700 dark:hover:bg-gray-600 border-none hover:bg-slate-300 transition-all"
               >
                 <FaShoppingBag size={20} />
@@ -111,23 +109,33 @@ const Header = (props: any) => {
                 ref={inputRef}
               />
               <label htmlFor="my-modal-4" className="modal">
-                <label
-                  className="modal-box relative dark:text-black overflow-y-auto"
-                  htmlFor=""
-                >
-                  <h3 className="text-lg font-bold">
-                    Congratulations random Interner user!
-                  </h3>
-                  <p className="py-4">
-                    You've been selected for a chance to get one year of
-                    subscription to use Wikipedia for free!
-                  </p>
+                <label className="modal-box relative dark:text-white overflow-y-auto dark:bg-[rgba(12,36,63,1)] p-4">
+                  {cartProducts.length
+                    ? cartProducts.map((item: any) => (
+                        <div className="flex justify-between">
+                          <div className="flex">
+                            <img
+                              src={item["files"][0]["data_url"]}
+                              className="w-[100px] h-[100px] object-cover"
+                            />
+                            <p>{item["productTitle"]}</p>
+                          </div>
+                          <div>Hello</div>
+                          <p>{item["productPrice"]}</p>
+                        </div>
+                      ))
+                    : null}
+
                   <Link
                     to="/shopping-cart"
-                    className="px-4 py-2 text-gray-500"
+                    className="flex items-center justify-center w-full py-4 mt-4 rounded-lg border border-white border-opacity-0 bg-blue-100 dark:bg-blue-500 hover:bg-blue-200 dark:hover:bg-blue-900 text-blue-700 dark:text-white font-semibold text-lg transition-all"
                     onClick={closeModal}
                   >
-                    See cart details
+                    <span className="mt-1">Go to your cart</span>
+                    <IoIosArrowForward
+                      className="text-blue-700 dark:text-white mt-1 ml-2"
+                      size={20}
+                    />
                   </Link>
                 </label>
               </label>
