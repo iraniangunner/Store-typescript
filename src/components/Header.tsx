@@ -1,20 +1,36 @@
 import { Link, useLocation } from "react-router-dom";
 import Hamburger from "hamburger-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BsFillMoonFill } from "react-icons/bs";
 import { BiSun } from "react-icons/bi";
 import { Switch } from "@headlessui/react";
 import logo from "../images/NFT logo.png";
 import { FaShoppingBag } from "react-icons/fa";
+import axios from "axios";
 
-const Header = () => {
-  const { pathname } = useLocation();
-
+const Header = (props: any) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const [theme, setTheme] = useState<boolean>(
     localStorage.getItem("theme") === "dark" ? true : false
   );
+
+  const { pathname } = useLocation();
+
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const closeModal = () => {
+    if (inputRef.current) {
+      inputRef.current.checked = false;
+    }
+  };
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/cart")
+      .then((res) => props.setQuantity(res.data.length))
+      .catch((err) => props.setQuantity(""));
+  }, []);
 
   useEffect(() => {
     if (theme) {
@@ -50,20 +66,19 @@ const Header = () => {
             <img src={logo} alt="NFT Logo" />
           </Link>
         </div>
-        <div className="hidden md:flex links justify-end ml-auto ">
-          <ul className="hidden md:flex justify-between items-center transition-all ease-linear duration-200">
+        <div className="hidden lg:flex links justify-end ml-auto ">
+          <ul className="hidden lg:flex justify-between items-center transition-all ease-linear duration-200">
             <li className="flex justify-center items-center mx-2">
-              <a
-                className="relative px-2 py-6 text-gray-900 dark:text-gray-50 after:absolute after:bottom-[10px] after:inset-x-0 after:m-auto after:w-0 after:content-['.'] after:text-transparent after:bg-[#aaa] after:h-[1px] after:transition[width] after:duration-[0.5s] hover:text-[#555] hover:after:w-full"
-                href="https://bscscan.com/token/0x80e7dc4e726E052b0dB04ec8b506596458809c11"
-                target="_blank"
+              <Link
+                className="relative p-4 text-gray-900 dark:text-gray-50 after:absolute after:bottom-[5px] after:inset-x-0 after:m-auto after:w-0 after:content-['.'] after:text-transparent after:bg-[#aaa] after:h-[1px] after:transition[width] after:duration-[0.5s] hover:text-[#555] hover:after:w-[80%]"
+                to="/"
               >
-                Contract
-              </a>
+                Home
+              </Link>
             </li>
             <li className="flex justify-center items-center mx-2">
               <Link
-                className="relative px-2 py-6 text-gray-900 dark:text-gray-50 after:absolute after:bottom-[10px] after:inset-x-0 after:m-auto after:w-0 after:content-['.'] after:text-transparent after:bg-[#aaa] after:h-[1px] after:transition[width] after:duration-[0.5s] hover:text-[#555] hover:after:w-full"
+                className="relative p-4 text-gray-900 dark:text-gray-50 after:absolute after:bottom-[5px] after:inset-x-0 after:m-auto after:w-0 after:content-['.'] after:text-transparent after:bg-[#aaa] after:h-[1px] after:transition[width] after:duration-[0.5s] hover:text-[#555] hover:after:w-[80%]"
                 to="/create"
               >
                 Create
@@ -71,19 +86,54 @@ const Header = () => {
             </li>
             <li className="flex justify-center items-center mx-2">
               <Link
-                className="relative px-2 py-6 text-gray-900 dark:text-gray-50 after:absolute after:bottom-[10px] after:inset-x-0 after:m-auto after:w-0 after:content-['.'] after:text-transparent after:bg-[#aaa] after:h-[1px] after:transition[width] after:duration-[0.5s] hover:text-[#555] hover:after:w-full"
+                className="relative p-4 text-gray-900 dark:text-gray-50 after:absolute after:bottom-[5px] after:inset-x-0 after:m-auto after:w-0 after:content-['.'] after:text-transparent after:bg-[#aaa] after:h-[1px] after:transition[width] after:duration-[0.5s] hover:text-[#555] hover:after:w-[80%]"
                 to="/market-place"
               >
                 Marketplace
               </Link>
             </li>
-            <li className="flex justify-center items-center mx-2">
-              <Link to="/shopping-cart" className="px-2 py-6 text-gray-900 dark:text-gray-50">
+            <li className="flex justify-center items-center mx-2 rounded-lg">
+              <label
+                htmlFor="my-modal-4"
+                className="p-3 text-gray-900 dark:text-slate-50 relative cursor-pointer btn modal-button bg-slate-200 dark:bg-gray-700 dark:hover:bg-gray-600 border-none hover:bg-slate-300 transition-all"
+              >
                 <FaShoppingBag size={20} />
-              </Link>
+                {props.quantity ? (
+                  <span className="absolute text-white bg-red-600 rounded-full w-6 h-6 flex items-center justify-center text-xs -top-2 -right-2">
+                    {props.quantity}
+                  </span>
+                ) : null}
+              </label>
+              <input
+                type="checkbox"
+                id="my-modal-4"
+                className="modal-toggle"
+                ref={inputRef}
+              />
+              <label htmlFor="my-modal-4" className="modal">
+                <label
+                  className="modal-box relative dark:text-black overflow-y-auto"
+                  htmlFor=""
+                >
+                  <h3 className="text-lg font-bold">
+                    Congratulations random Interner user!
+                  </h3>
+                  <p className="py-4">
+                    You've been selected for a chance to get one year of
+                    subscription to use Wikipedia for free!
+                  </p>
+                  <Link
+                    to="/shopping-cart"
+                    className="px-4 py-2 text-gray-500"
+                    onClick={closeModal}
+                  >
+                    See cart details
+                  </Link>
+                </label>
+              </label>
             </li>
             <li className="flex justify-center items-center mx-2">
-              <div className="text-base">
+              <div className="text-base p-4">
                 <Switch
                   checked={theme}
                   onChange={() => themeSwitch()}
@@ -109,24 +159,25 @@ pointer-events-none md:flex items-center justify-center h-[29px] w-[29px] rounde
                 </Switch>
               </div>
             </li>
-
             <li className="flex justify-center items-cente mx-2">
-              <Link to="/sign-up">
-                <button className="rounded-lg bg-gray-200 text-gray-900 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 transition-all dark:text-gray-50 py-2 px-4 cursor-pointer">
-                  SignUp
-                </button>
+              <Link
+                to="/sign-up"
+                className="rounded-lg bg-gray-200 text-gray-900 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 transition-all dark:text-gray-50 py-2 px-4 cursor-pointer"
+              >
+                SignUp
               </Link>
             </li>
             <li className="flex justify-center items-center mx-2">
-              <Link to="/sign-in">
-                <button className="rounded-lg bg-blue-500 hover:bg-blue-700 transition-all text-white py-2 px-4 cursor-pointer">
-                  LogIn
-                </button>
+              <Link
+                to="/sign-in"
+                className="rounded-lg bg-blue-500 hover:bg-blue-700 transition-all text-white py-2 px-4 cursor-pointer"
+              >
+                LogIn
               </Link>
             </li>
           </ul>
         </div>
-        <div className="menuIcon dark:text-gray-50 inline-block text-gray-900 rounded-md mr-0 ml-auto md:hidden">
+        <div className="menuIcon dark:text-gray-50 inline-block text-gray-900 rounded-md mr-0 ml-auto lg:hidden">
           <Hamburger
             toggled={isOpen}
             onToggle={() => setIsOpen(!isOpen)}
@@ -137,15 +188,15 @@ pointer-events-none md:flex items-center justify-center h-[29px] w-[29px] rounde
         </div>
       </nav>
       {isOpen && (
-        <div className="md:hidden bg-gray-50 dark:bg-gray-800 pb-3 pt-1 w-full shadow-2xl z-10">
-          <ul className="md:hidden space-y-4">
+        <div className="lg:hidden bg-gray-50 dark:bg-gray-800 pb-3 pt-1 w-full shadow-2xl z-10">
+          <ul className="lg:hidden space-y-4">
             <li className="cursor-pointer hover:bg-gray-500 transition-all ease-linear duration-200 mx-3 p-3">
               <a
                 className="block text-gray-900 dark:text-gray-50"
                 href="https://bscscan.com/token/0x80e7dc4e726E052b0dB04ec8b506596458809c11"
                 target="_blank"
               >
-                Contract
+                Home
               </a>
             </li>
             <li className="cursor-pointer hover:bg-gray-500 transition-all ease-linear duration-200 mx-3 p-3">

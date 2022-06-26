@@ -7,3 +7,6 @@ node server.js <br />
 npm start <br />
 
 
+I should handle responsive menu and shopping cart modal and shopping cart page
+
+

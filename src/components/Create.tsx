@@ -14,8 +14,6 @@ const CreateProduct = () => {
   // const dispatch = useDispatch();
   // const userProduct = useSelector(product);
 
-  const navigate = useNavigate();
-
   interface Form {
     productTitle: string;
     productDesc: string;
@@ -29,9 +27,10 @@ const CreateProduct = () => {
   });
 
   const [images, setImages] = useState([]);
+  const [isPosted, setIsPosted] = useState<boolean>(false);
+  const [showError, setShowError] = useState<string>("");
 
-  const [isPosted, setIsPosted] = useState(false);
-  const [showError, setShowError] = useState("");
+  const navigate = useNavigate();
 
   const changeHandler = (e: any): void => {
     setFormvalues({ ...formValues, [e.target.name]: e.target.value });
@@ -74,7 +73,6 @@ const CreateProduct = () => {
     });
 
   const maxNumber = 10;
-
 
   const onChange = async (
     imageList: ImageListType,
@@ -196,10 +194,7 @@ const CreateProduct = () => {
         />
       </div>
       <div className="mb-[30px]">
-        <label
-          htmlFor="desc"
-          className="block text-[14px] mb-[8px] font-[400]"
-        >
+        <label htmlFor="desc" className="block text-[14px] mb-[8px] font-[400]">
           Description
         </label>
         <TextareaAutosize
@@ -218,7 +213,7 @@ const CreateProduct = () => {
             type="submit"
             className="py-2.5 px-5 mr-2 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 inline-flex items-center"
           >
-            Submit
+            Create
           </button>
         ) : (
           <button

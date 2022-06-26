@@ -11,20 +11,40 @@ import CreateProduct from "./components/Create";
 import MarketPlace from "./components/Market";
 import ProductPage from "./components/ProductDetail";
 import ShoppingCart from "./components/ShoppingCart";
-
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 function App() {
+  const [quantity, setQuantity] = useState("");
+  const [buttonStatus, setButtonStatus] = useState<string>("");
+  const [cartProducts , setCartProducts] = useState([]);
+
   return (
     <div className="App dark:bg-gray-900 dark:text-gray-50">
-      <Header />
+      <Header
+        quantity={quantity}
+        setQuantity={setQuantity}
+        buttonStatus={buttonStatus}
+        setButtonStatus={setButtonStatus}
+      />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/sign-in" element={<SignIn />} />
-        <Route path="/create" element={<CreateProduct />}/>
+        <Route path="/create" element={<CreateProduct />} />
         <Route path="/market-place" element={<MarketPlace />} />
         <Route path="/shopping-cart" element={<ShoppingCart />} />
-        <Route path="/product-details/:id" element={<ProductPage />} />
+        <Route
+          path="/product-details/:id"
+          element={
+            <ProductPage
+              quantity={quantity}
+              setQuantity={setQuantity}
+              buttonStatus={buttonStatus}
+              setButtonStatus={setButtonStatus}
+            />
+          }
+        />
         <Route path="/pass-reset" element={<PasswordReset />} />
         <Route path="*" element={<NoPage />} />
       </Routes>

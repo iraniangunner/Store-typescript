@@ -1,9 +1,8 @@
-import ContentLoader from "react-content-loader";
 
 const Loader = (props: any) => {
   return (
     <div className="w-full p-6 flex flex-wrap">
-      <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2">
+      <div className="w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 p-2">
         <div className="flex flex-col relative w-full bg-white dark:bg-gray-900 overflow-hidden rounded border border-gray-300 p-4">
           <div className="relative bg-[#e2e8f0] dark:bg-gray-500 pt-[70%] rounded">
             <div className="absolute top-0 left-0 h-full w-full">
@@ -21,7 +20,7 @@ const Loader = (props: any) => {
           </div>
         </div>
       </div>
-      <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2">
+      <div className="w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 p-2">
         <div className="flex flex-col relative w-full bg-white dark:bg-gray-900 overflow-hidden rounded border border-gray-300 p-4">
           <div className="relative bg-[#e2e8f0] dark:bg-gray-500 pt-[70%] rounded">
             <div className="absolute top-0 left-0 h-full w-full">
@@ -39,7 +38,7 @@ const Loader = (props: any) => {
           </div>
         </div>
       </div>
-      <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2">
+      <div className="w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 p-2">
         <div className="flex flex-col relative w-full bg-white dark:bg-gray-900 overflow-hidden rounded border border-gray-300 p-4">
           <div className="relative bg-[#e2e8f0] dark:bg-gray-500 pt-[70%] rounded">
             <div className="absolute top-0 left-0 h-full w-full">
@@ -57,7 +56,7 @@ const Loader = (props: any) => {
           </div>
         </div>
       </div>
-      <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2">
+      <div className="w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 p-2">
         <div className="flex flex-col relative w-full bg-white dark:bg-gray-900 overflow-hidden rounded border border-gray-300 p-4">
           <div className="relative bg-[#e2e8f0] dark:bg-gray-500 pt-[70%] rounded">
             <div className="absolute top-0 left-0 h-full w-full">
@@ -75,7 +74,7 @@ const Loader = (props: any) => {
           </div>
         </div>
       </div>
-      <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2">
+      <div className="w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 p-2">
         <div className="flex flex-col relative w-full bg-white dark:bg-gray-900 overflow-hidden rounded border border-gray-300 p-4">
           <div className="relative bg-[#e2e8f0] dark:bg-gray-500 pt-[70%] rounded">
             <div className="absolute top-0 left-0 h-full w-full">
@@ -93,7 +92,7 @@ const Loader = (props: any) => {
           </div>
         </div>
       </div>
-      <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2">
+      <div className="w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 p-2">
         <div className="flex flex-col relative w-full bg-white dark:bg-gray-900 overflow-hidden rounded border border-gray-300 p-4">
           <div className="relative bg-[#e2e8f0] dark:bg-gray-500 pt-[70%] rounded">
             <div className="absolute top-0 left-0 h-full w-full">
@@ -111,7 +110,7 @@ const Loader = (props: any) => {
           </div>
         </div>
       </div>
-      <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2">
+      <div className="w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 p-2">
         <div className="flex flex-col relative w-full bg-white dark:bg-gray-900 overflow-hidden rounded border border-gray-300 p-4">
           <div className="relative bg-[#e2e8f0] dark:bg-gray-500 pt-[70%] rounded">
             <div className="absolute top-0 left-0 h-full w-full">
@@ -129,7 +128,7 @@ const Loader = (props: any) => {
           </div>
         </div>
       </div>
-      <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2">
+      <div className="w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 p-2">
         <div className="flex flex-col relative w-full bg-white dark:bg-gray-900 overflow-hidden rounded border border-gray-300 p-4">
           <div className="relative bg-[#e2e8f0] dark:bg-gray-500 pt-[70%] rounded">
             <div className="absolute top-0 left-0 h-full w-full">
