@@ -33,11 +33,13 @@ const ProductPage = (props: any) => {
       .post("http://localhost:3001/cart", {
         ...productDetails,
         id: id,
-        quantity: 1
+        quantity: 1,
       })
       .then((res) => {
         toast.success("Successfully added to your cart!");
-        props.setQuantity((prevQuantity: number) => prevQuantity + res.data.quantity);
+        props.setQuantity(
+          (prevQuantity: number) => prevQuantity + res.data.quantity
+        );
         props.setButtonStatus("success");
       })
       .catch((err) => {
@@ -48,7 +50,7 @@ const ProductPage = (props: any) => {
 
   useEffect(() => {
     const requestOne = axios.get(`http://localhost:3001/products/${id}`);
-    const requestTwo = axios.get("http://localhost:3001/cart/");
+    const requestTwo = axios.get("http://localhost:3001/cart");
     axios
       .all([requestOne, requestTwo])
       .then(
@@ -111,7 +113,10 @@ const ProductPage = (props: any) => {
                   Add to cart
                 </button>
               ) : props.buttonStatus === "pending" ? (
-                <button className="mt-10 px-4 py-2 w-[40%] rounded-md bg-red-300 text-white flex justify-center items-center" disabled>
+                <button
+                  className="mt-10 px-4 py-2 w-[40%] rounded-md bg-red-300 text-white flex justify-center items-center"
+                  disabled
+                >
                   <svg
                     role="status"
                     className="inline w-6 h-6 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"

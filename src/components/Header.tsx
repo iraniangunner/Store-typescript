@@ -7,11 +7,13 @@ import { Switch } from "@headlessui/react";
 import logo from "../images/NFT logo.png";
 import { FaShoppingBag } from "react-icons/fa";
 import { IoIosArrowForward } from "react-icons/io";
+import { BsTrash } from "react-icons/bs";
 import axios from "axios";
 
 const Header = (props: any) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [cartProducts, setCartProducts] = useState([]);
+  const [isloaded, setIsLoaded] = useState<number>(-1);
 
   const [theme, setTheme] = useState<boolean>(
     localStorage.getItem("theme") === "dark" ? true : false
@@ -62,10 +64,15 @@ const Header = (props: any) => {
   };
 
   const decreaseQuantity = (id: number, itemQuantity: number) => {
+    setIsLoaded(id);
     if (itemQuantity === 1) {
       axios
         .delete(`http://localhost:3001/cart/${id}`)
-        .then((res) => props.setQuantity((prev: any) => prev - 1));
+        .then((res) => {
+          props.setQuantity((prev: any) => prev - 1);
+          setIsLoaded(-1);
+        })
+        .catch((err) => setIsLoaded(-1));
     } else {
       axios
         .patch(`http://localhost:3001/cart/${id}`, {
@@ -73,16 +80,21 @@ const Header = (props: any) => {
         })
         .then((res) => {
           props.setQuantity((prev: any) => prev - 1);
-        });
+          setIsLoaded(-1);
+        })
+        .catch((err) => setIsLoaded(-1));
     }
   };
 
   const increaseQuantity = (id: number, itemQuantity: number) => {
+    setIsLoaded(id);
     axios
       .patch(`http://localhost:3001/cart/${id}`, { quantity: itemQuantity + 1 })
       .then((res) => {
         props.setQuantity((prev: any) => prev + 1);
-      });
+        setIsLoaded(0);
+      })
+      .catch((err) => setIsLoaded(-1));
   };
 
   return (
@@ -156,9 +168,11 @@ const Header = (props: any) => {
                                 decreaseQuantity(item.id, item.quantity)
                               }
                             >
-                              -
+                              {item.quantity === 1 ? <BsTrash /> : "-"}
                             </button>
-                            <span>{item.quantity}</span>
+                            <span>
+                              {isloaded === item.id ? "hello" : item.quantity}
+                            </span>
                             <button
                               className="bg-gray-500 px-2 py-1 rounded-md ml-2"
                               onClick={() =>
