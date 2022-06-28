@@ -35,7 +35,7 @@ const MarketPlace = () => {
                     productImageUrl={item["files"][0]["data_url"]}
                   />
                 </Link>
-              </div>
+              </div> 
             );
           })}
         </div>

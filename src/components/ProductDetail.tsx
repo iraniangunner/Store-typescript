@@ -33,10 +33,11 @@ const ProductPage = (props: any) => {
       .post("http://localhost:3001/cart", {
         ...productDetails,
         id: id,
+        quantity: 1
       })
       .then((res) => {
         toast.success("Successfully added to your cart!");
-        props.setQuantity((prevQuantity: number) => prevQuantity + 1);
+        props.setQuantity((prevQuantity: number) => prevQuantity + res.data.quantity);
         props.setButtonStatus("success");
       })
       .catch((err) => {
@@ -66,7 +67,7 @@ const ProductPage = (props: any) => {
       .catch((error) => {
         setIsLoaded(false);
       });
-  }, []);
+  }, [props.quantity]);
 
   return (
     <div className="w-full xl:w-10/12 p-3 sm:p-5 mx-auto min-h-[80vh]">

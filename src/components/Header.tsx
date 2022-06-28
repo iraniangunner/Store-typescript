@@ -31,7 +31,13 @@ const Header = (props: any) => {
     axios
       .get("http://localhost:3001/cart")
       .then((res) => {
-        props.setQuantity(res.data.length);
+        if (!props.quantity) {
+          props.setQuantity(
+            res.data
+              .map((item: any) => item.quantity)
+              .reduce((acc: number, curr: number) => acc + curr, 0)
+          );
+        }
         setCartProducts(res.data);
       })
       .catch((err) => props.setQuantity(""));
@@ -53,6 +59,30 @@ const Header = (props: any) => {
 
   const themeSwitch = () => {
     setTheme(!theme);
+  };
+
+  const decreaseQuantity = (id: number, itemQuantity: number) => {
+    if (itemQuantity === 1) {
+      axios
+        .delete(`http://localhost:3001/cart/${id}`)
+        .then((res) => props.setQuantity((prev: any) => prev - 1));
+    } else {
+      axios
+        .patch(`http://localhost:3001/cart/${id}`, {
+          quantity: itemQuantity - 1,
+        })
+        .then((res) => {
+          props.setQuantity((prev: any) => prev - 1);
+        });
+    }
+  };
+
+  const increaseQuantity = (id: number, itemQuantity: number) => {
+    axios
+      .patch(`http://localhost:3001/cart/${id}`, { quantity: itemQuantity + 1 })
+      .then((res) => {
+        props.setQuantity((prev: any) => prev + 1);
+      });
   };
 
   return (
@@ -92,7 +122,6 @@ const Header = (props: any) => {
             <li className="flex justify-center items-center mx-2 rounded-lg">
               <label
                 htmlFor="my-modal-4"
-                // onClick={getProductsHandler}
                 className="p-3 text-gray-900 dark:text-slate-50 relative cursor-pointer btn modal-button bg-slate-200 dark:bg-gray-700 dark:hover:bg-gray-600 border-none hover:bg-slate-300 transition-all"
               >
                 <FaShoppingBag size={20} />
@@ -112,7 +141,7 @@ const Header = (props: any) => {
                 <label className="modal-box relative dark:text-white overflow-y-auto dark:bg-[rgba(12,36,63,1)] p-4">
                   {cartProducts.length
                     ? cartProducts.map((item: any) => (
-                        <div className="flex justify-between">
+                        <div className="flex justify-between" key={item.id}>
                           <div className="flex">
                             <img
                               src={item["files"][0]["data_url"]}
@@ -120,7 +149,25 @@ const Header = (props: any) => {
                             />
                             <p>{item["productTitle"]}</p>
                           </div>
-                          <div>Hello</div>
+                          <div className="flex justify-center items-center">
+                            <button
+                              className="bg-gray-500 px-2 py-1 rounded-md mr-2"
+                              onClick={() =>
+                                decreaseQuantity(item.id, item.quantity)
+                              }
+                            >
+                              -
+                            </button>
+                            <span>{item.quantity}</span>
+                            <button
+                              className="bg-gray-500 px-2 py-1 rounded-md ml-2"
+                              onClick={() =>
+                                increaseQuantity(item.id, item.quantity)
+                              }
+                            >
+                              +
+                            </button>
+                          </div>
                           <p>{item["productPrice"]}</p>
                         </div>
                       ))
