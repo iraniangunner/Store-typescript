@@ -48,6 +48,7 @@ const CreateProduct = () => {
       .then((res) => {
         navigate("/market-place");
         setIsPosted(false);
+        setShowError("");
       })
       .catch((err) => {
         setIsPosted(false);

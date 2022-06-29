@@ -12,10 +12,9 @@ import MarketPlace from "./components/Market";
 import ProductPage from "./components/ProductDetail";
 import ShoppingCart from "./components/ShoppingCart";
 import { useState, useEffect } from "react";
-import axios from "axios";
 
 function App() {
-  const [quantity, setQuantity] = useState("");
+  const [quantity, setQuantity] = useState(0);
   const [buttonStatus, setButtonStatus] = useState<string>("");
 
   return (

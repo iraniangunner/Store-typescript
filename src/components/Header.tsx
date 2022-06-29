@@ -14,6 +14,7 @@ const Header = (props: any) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [cartProducts, setCartProducts] = useState([]);
   const [isloaded, setIsLoaded] = useState<number>(-1);
+  const [isError, setIsError] = useState<boolean>(false);
 
   const [theme, setTheme] = useState<boolean>(
     localStorage.getItem("theme") === "dark" ? true : false
@@ -42,7 +43,9 @@ const Header = (props: any) => {
         }
         setCartProducts(res.data);
       })
-      .catch((err) => props.setQuantity(""));
+      .catch((err) => {
+        props.setQuantity(0);
+      });
   }, [props.quantity]);
 
   useEffect(() => {
@@ -70,9 +73,13 @@ const Header = (props: any) => {
         .delete(`http://localhost:3001/cart/${id}`)
         .then((res) => {
           props.setQuantity((prev: any) => prev - 1);
+          setIsError(false);
           setIsLoaded(-1);
         })
-        .catch((err) => setIsLoaded(-1));
+        .catch((err) => {
+          setIsError(true);
+          setIsLoaded(-1);
+        });
     } else {
       axios
         .patch(`http://localhost:3001/cart/${id}`, {
@@ -80,9 +87,13 @@ const Header = (props: any) => {
         })
         .then((res) => {
           props.setQuantity((prev: any) => prev - 1);
+          setIsError(false);
           setIsLoaded(-1);
         })
-        .catch((err) => setIsLoaded(-1));
+        .catch((err) => {
+          setIsError(true);
+          setIsLoaded(-1);
+        });
     }
   };
 
@@ -92,9 +103,13 @@ const Header = (props: any) => {
       .patch(`http://localhost:3001/cart/${id}`, { quantity: itemQuantity + 1 })
       .then((res) => {
         props.setQuantity((prev: any) => prev + 1);
-        setIsLoaded(0);
+        setIsError(false);
+        setIsLoaded(-1);
       })
-      .catch((err) => setIsLoaded(-1));
+      .catch((err) => {
+        setIsError(true);
+        setIsLoaded(-1);
+      });
   };
 
   return (
@@ -134,7 +149,7 @@ const Header = (props: any) => {
             <li className="flex justify-center items-center mx-2 rounded-lg">
               <label
                 htmlFor="my-modal-4"
-                className="p-3 text-gray-900 dark:text-slate-50 relative cursor-pointer btn modal-button bg-slate-200 dark:bg-gray-700 dark:hover:bg-gray-600 border-none hover:bg-slate-300 transition-all"
+                className="p-3 text-gray-900 dark:text-slate-50 relative cursor-pointer btn bg-slate-200 dark:bg-gray-700 dark:hover:bg-gray-600 border-none hover:bg-slate-300 transition-all"
               >
                 <FaShoppingBag size={20} />
                 {props.quantity ? (
@@ -150,10 +165,14 @@ const Header = (props: any) => {
                 ref={inputRef}
               />
               <label htmlFor="my-modal-4" className="modal">
-                <label className="modal-box relative dark:text-white overflow-y-auto dark:bg-[rgba(12,36,63,1)] p-4">
-                  {cartProducts.length
-                    ? cartProducts.map((item: any) => (
-                        <div className="flex justify-between" key={item.id}>
+                <label
+                  className="modal-box relative dark:text-white overflow-y-auto dark:bg-[rgba(12,36,63,1)] p-4"
+                  htmlFor=""
+                >
+                  {cartProducts.length ? (
+                    <>
+                      {cartProducts.map((item: any, index: number) => (
+                        <div className="flex justify-between" key={index}>
                           <div className="flex">
                             <img
                               src={item["files"][0]["data_url"]}
@@ -163,6 +182,7 @@ const Header = (props: any) => {
                           </div>
                           <div className="flex justify-center items-center">
                             <button
+                              type="button"
                               className="bg-gray-500 px-2 py-1 rounded-md mr-2"
                               onClick={() =>
                                 decreaseQuantity(item.id, item.quantity)
@@ -170,10 +190,13 @@ const Header = (props: any) => {
                             >
                               {item.quantity === 1 ? <BsTrash /> : "-"}
                             </button>
-                            <span>
-                              {isloaded === item.id ? "hello" : item.quantity}
-                            </span>
+                            {isloaded === item.id ? (
+                              <span>hello</span>
+                            ) : (
+                              <span>{item.quantity}</span>
+                            )}
                             <button
+                              type="button"
                               className="bg-gray-500 px-2 py-1 rounded-md ml-2"
                               onClick={() =>
                                 increaseQuantity(item.id, item.quantity)
@@ -184,20 +207,45 @@ const Header = (props: any) => {
                           </div>
                           <p>{item["productPrice"]}</p>
                         </div>
-                      ))
-                    : null}
-
-                  <Link
-                    to="/shopping-cart"
-                    className="flex items-center justify-center w-full py-4 mt-4 rounded-lg border border-white border-opacity-0 bg-blue-100 dark:bg-blue-500 hover:bg-blue-200 dark:hover:bg-blue-900 text-blue-700 dark:text-white font-semibold text-lg transition-all"
-                    onClick={closeModal}
-                  >
-                    <span className="mt-1">Go to your cart</span>
-                    <IoIosArrowForward
-                      className="text-blue-700 dark:text-white mt-1 ml-2"
-                      size={20}
-                    />
-                  </Link>
+                      ))}
+                      {isError ? (
+                        <p className="text-red-500">server error try again!</p>
+                      ) : (
+                        ""
+                      )}
+                      <Link
+                        to="/shopping-cart"
+                        className="flex items-center justify-center w-full py-4 mt-4 rounded-lg border border-white border-opacity-0 bg-blue-100 dark:bg-blue-500 hover:bg-blue-200 dark:hover:bg-blue-900 text-blue-700 dark:text-white font-semibold text-lg transition-all"
+                        onClick={closeModal}
+                      >
+                        <span className="mt-1">Go to your cart</span>
+                        <IoIosArrowForward
+                          className="text-blue-700 dark:text-white mt-1 ml-2"
+                          size={20}
+                        />
+                      </Link>
+                    </>
+                  ) : (
+                    <div>
+                      <span>Your cart is empty!</span>
+                      {isError ? (
+                        <p className="text-red-500">server error try again!</p>
+                      ) : (
+                        ""
+                      )}
+                      <Link
+                        to="/market-place"
+                        className="flex items-center justify-center w-full py-4 mt-4 rounded-lg border border-white border-opacity-0 bg-blue-100 dark:bg-blue-500 hover:bg-blue-200 dark:hover:bg-blue-900 text-blue-700 dark:text-white font-semibold text-lg transition-all"
+                        onClick={closeModal}
+                      >
+                        <span className="mt-1">Go to Marketplace</span>
+                        <IoIosArrowForward
+                          className="text-blue-700 dark:text-white mt-1 ml-2"
+                          size={20}
+                        />
+                      </Link>
+                    </div>
+                  )}
                 </label>
               </label>
             </li>
@@ -285,13 +333,18 @@ pointer-events-none md:flex items-center justify-center h-[29px] w-[29px] rounde
               </Link>
             </li>
             <li className="cursor-pointer hover:bg-gray-500 transition-all ease-linear duration-200 mx-3 p-3">
-              <a
-                className="block text-gray-900 dark:text-gray-50"
-                href="https://bscscan.com/token/0x80e7dc4e726E052b0dB04ec8b506596458809c11"
-                target="_blank"
+              <Link
+                to="/shopping-cart"
+                className="p-3 text-gray-900 dark:text-slate-50 relative cursor-pointer btn modal-button bg-slate-200 dark:bg-gray-700 dark:hover:bg-gray-600 border-none hover:bg-slate-300 transition-all"
               >
-                WhitePaper
-              </a>
+                <FaShoppingBag size={20} />
+                {props.quantity ? (
+                  <span className="absolute text-white bg-red-600 rounded-full w-6 h-6 flex items-center justify-center text-xs -top-2 -right-2">
+                    {props.quantity}
+                  </span>
+                ) : null}
+              </Link>
+              <span className="ml-2">Shopping Cart</span>
             </li>
             <li className="flex items-center justify-between mx-3 p-3">
               <p className="text-gray-900 dark:text-gray-50">Theme Mode</p>
