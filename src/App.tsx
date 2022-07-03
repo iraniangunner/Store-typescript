@@ -14,8 +14,9 @@ import ShoppingCart from "./components/ShoppingCart";
 import { useState, useEffect } from "react";
 
 function App() {
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState<number>(0);
   const [buttonStatus, setButtonStatus] = useState<string>("");
+  const [cartProducts, setCartProducts] = useState([]);
 
   return (
     <div className="App dark:bg-gray-900 dark:text-gray-50">
@@ -24,6 +25,8 @@ function App() {
         setQuantity={setQuantity}
         buttonStatus={buttonStatus}
         setButtonStatus={setButtonStatus}
+        cartProducts={cartProducts}
+        setCartProducts={setCartProducts}
       />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -40,6 +43,8 @@ function App() {
               setQuantity={setQuantity}
               buttonStatus={buttonStatus}
               setButtonStatus={setButtonStatus}
+              cartProducts={cartProducts}
+              setCartProducts={setCartProducts}
             />
           }
         />

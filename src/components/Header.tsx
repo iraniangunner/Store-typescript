@@ -12,9 +12,9 @@ import axios from "axios";
 
 const Header = (props: any) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [cartProducts, setCartProducts] = useState([]);
   const [isloaded, setIsLoaded] = useState<number>(-1);
   const [isError, setIsError] = useState<boolean>(false);
+
 
   const [theme, setTheme] = useState<boolean>(
     localStorage.getItem("theme") === "dark" ? true : false
@@ -34,6 +34,7 @@ const Header = (props: any) => {
     axios
       .get("http://localhost:3001/cart")
       .then((res) => {
+        setIsError(false);
         if (!props.quantity) {
           props.setQuantity(
             res.data
@@ -41,12 +42,13 @@ const Header = (props: any) => {
               .reduce((acc: number, curr: number) => acc + curr, 0)
           );
         }
-        setCartProducts(res.data);
+        props.setCartProducts(res.data);
       })
       .catch((err) => {
-        props.setQuantity(0);
+        // how to handle error?!
+        setIsError(true);
       });
-  }, [props.quantity]);
+  }, []);
 
   useEffect(() => {
     if (theme) {
@@ -73,6 +75,11 @@ const Header = (props: any) => {
         .delete(`http://localhost:3001/cart/${id}`)
         .then((res) => {
           props.setQuantity((prev: any) => prev - 1);
+          const updatedProducts = props.cartProducts.filter(
+            (item: any) => item.id !== id
+          );
+          props.setCartProducts(updatedProducts);
+          props.setButtonStatus("");
           setIsError(false);
           setIsLoaded(-1);
         })
@@ -87,6 +94,14 @@ const Header = (props: any) => {
         })
         .then((res) => {
           props.setQuantity((prev: any) => prev - 1);
+          const index = props.cartProducts.findIndex(
+            (item: any) => item.id === id
+          );
+          const selectedCartItem = { ...props.cartProducts[index] };
+          selectedCartItem.quantity = res.data.quantity;
+          const updatedCartItems = [...props.cartProducts];
+          updatedCartItems[index] = selectedCartItem;
+          props.setCartProducts(updatedCartItems);
           setIsError(false);
           setIsLoaded(-1);
         })
@@ -103,6 +118,14 @@ const Header = (props: any) => {
       .patch(`http://localhost:3001/cart/${id}`, { quantity: itemQuantity + 1 })
       .then((res) => {
         props.setQuantity((prev: any) => prev + 1);
+        const index = props.cartProducts.findIndex(
+          (item: any) => item.id === id
+        );
+        const selectedCartItem = { ...props.cartProducts[index] };
+        selectedCartItem.quantity = res.data.quantity;
+        const updatedCartItems = [...props.cartProducts];
+        updatedCartItems[index] = selectedCartItem;
+        props.setCartProducts(updatedCartItems);
         setIsError(false);
         setIsLoaded(-1);
       })
@@ -166,24 +189,29 @@ const Header = (props: any) => {
               />
               <label htmlFor="my-modal-4" className="modal">
                 <label
-                  className="modal-box relative dark:text-white overflow-y-auto dark:bg-[rgba(12,36,63,1)] p-4"
+                  className="modal-box relative dark:text-white overflow-y-auto dark:bg-[rgba(12,36,63,1)]"
                   htmlFor=""
                 >
-                  {cartProducts.length ? (
+                  {props.cartProducts.length ? (
                     <>
-                      {cartProducts.map((item: any, index: number) => (
-                        <div className="flex justify-between" key={index}>
-                          <div className="flex">
+                      {props.cartProducts.map((item: any, index: number) => (
+                        <div
+                          className="flex justify-between border-b p-2"
+                          key={index}
+                        >
+                          <div className="flex-1">
                             <img
                               src={item["files"][0]["data_url"]}
                               className="w-[100px] h-[100px] object-cover"
                             />
-                            <p>{item["productTitle"]}</p>
+                            <p className="text-sm mt-1">
+                              {item["productTitle"]}
+                            </p>
                           </div>
-                          <div className="flex justify-center items-center">
+                          <div className="flex justify-center items-center flex-1">
                             <button
                               type="button"
-                              className="bg-gray-500 px-2 py-1 rounded-md mr-2"
+                              className="bg-slate-200 dark:bg-gray-700 w-[30px] h-[30px] rounded-md mr-3 flex justify-center items-center"
                               onClick={() =>
                                 decreaseQuantity(item.id, item.quantity)
                               }
@@ -191,13 +219,13 @@ const Header = (props: any) => {
                               {item.quantity === 1 ? <BsTrash /> : "-"}
                             </button>
                             {isloaded === item.id ? (
-                              <span>hello</span>
+                              <div className="relative w-[5px] h-[5px] rounded-[50%] bg-[#9880ff] text-[#9880ff] animate-[dotFlashing_1s_linear_0.5s_infinite_alternate] before:content-[''] after:content-[''] before:inline-block after:inline-block before:absolute after:absolute before:top-0 after:top-0 before:left-[-8px] before:w-[5px] before:h-[5px] before:rounded-[50%] before:bg-[#9880ff] before:text-[#9880ff] before:animate-[dotFlashing_1s_0s_infinite_alternate] after:left-[8px] after:w-[5px] after:h-[5px] after:rounded-[50%] after:bg-[#9880ff] after:text-[#9880ff] after:animate-[dotFlashing_1s_1s_infinite_alternate]"></div>
                             ) : (
-                              <span>{item.quantity}</span>
+                              <div>{item.quantity}</div>
                             )}
                             <button
                               type="button"
-                              className="bg-gray-500 px-2 py-1 rounded-md ml-2"
+                              className="bg-slate-200 dark:bg-gray-700 w-[30px] h-[30px] rounded-md ml-3 flex justify-center items-center"
                               onClick={() =>
                                 increaseQuantity(item.id, item.quantity)
                               }
@@ -205,7 +233,9 @@ const Header = (props: any) => {
                               +
                             </button>
                           </div>
-                          <p>{item["productPrice"]}</p>
+                          <div className="flex justify-center items-center flex-1">
+                            <span>{item["productPrice"]} ETH</span>
+                          </div>
                         </div>
                       ))}
                       {isError ? (
@@ -308,13 +338,9 @@ pointer-events-none md:flex items-center justify-center h-[29px] w-[29px] rounde
         <div className="lg:hidden bg-gray-50 dark:bg-gray-800 pb-3 pt-1 w-full shadow-2xl z-10">
           <ul className="lg:hidden space-y-4">
             <li className="cursor-pointer hover:bg-gray-500 transition-all ease-linear duration-200 mx-3 p-3">
-              <a
-                className="block text-gray-900 dark:text-gray-50"
-                href="https://bscscan.com/token/0x80e7dc4e726E052b0dB04ec8b506596458809c11"
-                target="_blank"
-              >
+              <Link to="/" className="block text-gray-900 dark:text-gray-50">
                 Home
-              </a>
+              </Link>
             </li>
             <li className="cursor-pointer hover:bg-gray-500 transition-all ease-linear duration-200 mx-3 p-3">
               <Link

@@ -7,7 +7,7 @@ import Loader from "./Loader";
 const MarketPlace = () => {
   const [products, setProducts] = useState([]);
 
-  const [isLoaded, setIsLoaded] = useState(true);
+  const [isLoaded, setIsLoaded] = useState<boolean>(true);
 
   useEffect(() => {
     axios

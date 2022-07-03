@@ -28,7 +28,6 @@ const ProductPage = (props: any) => {
   const addToCartHandler = (e: any) => {
     props.setButtonStatus("pending");
     e.preventDefault();
-
     axios
       .post("http://localhost:3001/cart", {
         ...productDetails,
@@ -37,10 +36,9 @@ const ProductPage = (props: any) => {
       })
       .then((res) => {
         toast.success("Successfully added to your cart!");
-        props.setQuantity(
-          (prevQuantity: number) => prevQuantity + res.data.quantity
-        );
+        props.setQuantity((prevQuantity: number) => prevQuantity + 1);
         props.setButtonStatus("success");
+        props.setCartProducts([...props.cartProducts , res.data])
       })
       .catch((err) => {
         toast.error("Sorry try again!");
@@ -49,27 +47,23 @@ const ProductPage = (props: any) => {
   };
 
   useEffect(() => {
-    const requestOne = axios.get(`http://localhost:3001/products/${id}`);
-    const requestTwo = axios.get("http://localhost:3001/cart");
     axios
-      .all([requestOne, requestTwo])
-      .then(
-        axios.spread((...responses) => {
-          const responseOne = responses[0];
-          const responseTwo = responses[1];
+      .get(`http://localhost:3001/products/${id}`)
+      .then((res) => setProductDetails(res.data))
+      .catch((err) => setIsLoaded(false));
+  }, []);
 
-          setProductDetails(responseOne.data);
-
-          const availableIds = responseTwo.data.map((item: any) => item.id);
-          availableIds.includes(id)
-            ? props.setButtonStatus("success")
-            : props.setButtonStatus("");
-        })
-      )
-      .catch((error) => {
-        setIsLoaded(false);
-      });
-  }, [props.quantity]);
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/cart")
+      .then((res) => {
+        const availableIds = res.data.map((item: any) => item.id);
+        availableIds.includes(id)
+          ? props.setButtonStatus("success")
+          : props.setButtonStatus("");
+      })
+      .catch((err) => setIsLoaded(false));
+  }, []);
 
   return (
     <div className="w-full xl:w-10/12 p-3 sm:p-5 mx-auto min-h-[80vh]">

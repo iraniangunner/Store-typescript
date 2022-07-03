@@ -10,6 +10,10 @@ module.exports = {
         shimmer: {
           "100%": { transform: "translateX(100%)" },
         },
+        dotFlashing: {
+          "0%": { backgroundColor: "#9880ff" },
+          "50% , 100%": { backgroundColor: "#ebe6ff" },
+        },
       },
       backgroundImage: {
         skelton:
