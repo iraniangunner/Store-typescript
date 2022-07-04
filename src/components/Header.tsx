@@ -12,9 +12,8 @@ import axios from "axios";
 
 const Header = (props: any) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [isloaded, setIsLoaded] = useState<number>(-1);
+  const [clickedItemId, setClickedItemId] = useState<number>(-1);
   const [isError, setIsError] = useState<boolean>(false);
-
 
   const [theme, setTheme] = useState<boolean>(
     localStorage.getItem("theme") === "dark" ? true : false
@@ -69,7 +68,7 @@ const Header = (props: any) => {
   };
 
   const decreaseQuantity = (id: number, itemQuantity: number) => {
-    setIsLoaded(id);
+    setClickedItemId(id);
     if (itemQuantity === 1) {
       axios
         .delete(`http://localhost:3001/cart/${id}`)
@@ -81,11 +80,11 @@ const Header = (props: any) => {
           props.setCartProducts(updatedProducts);
           props.setButtonStatus("");
           setIsError(false);
-          setIsLoaded(-1);
+          setClickedItemId(-1);
         })
         .catch((err) => {
           setIsError(true);
-          setIsLoaded(-1);
+          setClickedItemId(-1);
         });
     } else {
       axios
@@ -103,21 +102,22 @@ const Header = (props: any) => {
           updatedCartItems[index] = selectedCartItem;
           props.setCartProducts(updatedCartItems);
           setIsError(false);
-          setIsLoaded(-1);
+          setClickedItemId(-1);
         })
         .catch((err) => {
           setIsError(true);
-          setIsLoaded(-1);
+          setClickedItemId(-1);
         });
     }
   };
 
   const increaseQuantity = (id: number, itemQuantity: number) => {
-    setIsLoaded(id);
+    setClickedItemId(id);
     axios
       .patch(`http://localhost:3001/cart/${id}`, { quantity: itemQuantity + 1 })
       .then((res) => {
         props.setQuantity((prev: any) => prev + 1);
+
         const index = props.cartProducts.findIndex(
           (item: any) => item.id === id
         );
@@ -126,12 +126,13 @@ const Header = (props: any) => {
         const updatedCartItems = [...props.cartProducts];
         updatedCartItems[index] = selectedCartItem;
         props.setCartProducts(updatedCartItems);
+
         setIsError(false);
-        setIsLoaded(-1);
+        setClickedItemId(-1);
       })
       .catch((err) => {
         setIsError(true);
-        setIsLoaded(-1);
+        setClickedItemId(-1);
       });
   };
 
@@ -218,7 +219,7 @@ const Header = (props: any) => {
                             >
                               {item.quantity === 1 ? <BsTrash /> : "-"}
                             </button>
-                            {isloaded === item.id ? (
+                            {clickedItemId === item.id ? (
                               <div className="relative w-[5px] h-[5px] rounded-[50%] bg-[#9880ff] text-[#9880ff] animate-[dotFlashing_1s_linear_0.5s_infinite_alternate] before:content-[''] after:content-[''] before:inline-block after:inline-block before:absolute after:absolute before:top-0 after:top-0 before:left-[-8px] before:w-[5px] before:h-[5px] before:rounded-[50%] before:bg-[#9880ff] before:text-[#9880ff] before:animate-[dotFlashing_1s_0s_infinite_alternate] after:left-[8px] after:w-[5px] after:h-[5px] after:rounded-[50%] after:bg-[#9880ff] after:text-[#9880ff] after:animate-[dotFlashing_1s_1s_infinite_alternate]"></div>
                             ) : (
                               <div>{item.quantity}</div>
