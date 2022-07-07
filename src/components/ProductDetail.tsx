@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+// import toast, { Toaster } from 'react-hot-toast';
 
 const ProductPage = (props: any) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -131,8 +131,8 @@ const ProductPage = (props: any) => {
             </button>
           ) : props.buttonStatus === "pending" ? (
             <button
-              className="mt-10 px-4 py-2 w-[40%] rounded-md bg-red-300 text-white flex justify-center items-center"
               disabled
+              className="mt-10 px-4 py-2 w-[40%] rounded-md bg-red-300 text-white flex justify-center items-center cursor-not-allowed"
             >
               <svg
                 role="status"
@@ -159,7 +159,6 @@ const ProductPage = (props: any) => {
               Go to shopping Cart
             </Link>
           ) : null}
-          <ToastContainer />
         </div>
       </div>
     </div>

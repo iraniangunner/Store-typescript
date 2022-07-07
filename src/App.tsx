@@ -10,8 +10,10 @@ import PasswordReset from "./components/PassReset";
 import CreateProduct from "./components/Create";
 import MarketPlace from "./components/Market";
 import ProductPage from "./components/ProductDetail";
-import ShoppingCart from "./components/ShoppingCart";
+import ShoppingCart from "./components/ShoppingCartDetail";
 import { useState, useEffect } from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const [quantity, setQuantity] = useState<number>(0);
@@ -28,6 +30,7 @@ function App() {
         cartProducts={cartProducts}
         setCartProducts={setCartProducts}
       />
+      <ToastContainer />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/sign-up" element={<SignUp />} />
