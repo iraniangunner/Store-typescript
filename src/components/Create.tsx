@@ -11,7 +11,6 @@ import { useNavigate } from "react-router-dom";
 import Resizer from "react-image-file-resizer";
 import * as Yup from "yup";
 import { Formik } from "formik";
-// import toast, { Toaster } from 'react-hot-toast';
 import { toast } from "react-toastify";
 
 const CreateProduct = () => {
@@ -20,7 +19,6 @@ const CreateProduct = () => {
 
   const [images, setImages] = useState([]);
   const [isPosted, setIsPosted] = useState<boolean>(false);
-  // const [showError, setShowError] = useState<string>("");
 
   const navigate = useNavigate();
 
@@ -181,9 +179,6 @@ const CreateProduct = () => {
                       </div>
                       {errors && (
                         <div className="mt-2 text-sm text-red-400">
-                          {/* {errors.maxNumber && (
-                    <span>Number of selected images exceed maxNumber</span>
-                  )} */}
                           {errors.acceptType && (
                             <span>Your selected file type is not allow</span>
                           )}
@@ -314,7 +309,7 @@ const CreateProduct = () => {
                   <button
                     disabled
                     type="button"
-                    className="py-2.5 px-5 text-sm font-medium opacity-50 cursor-not-allowed text-gray-900 bg-white rounded-lg w-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 flex items-center justify-center"
+                    className="py-2.5 px-5 text-md font-medium opacity-50 cursor-not-allowed text-gray-900 bg-white rounded-lg w-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 flex items-center justify-center"
                   >
                     <svg
                       role="status"
@@ -332,7 +327,7 @@ const CreateProduct = () => {
                         fill="#1C64F2"
                       />
                     </svg>
-                    Loading...
+                    Please wait...
                   </button>
                 )}
               </div>

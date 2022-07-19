@@ -20,13 +20,11 @@ const ShoppingCartModal = (props: any) => {
     axios
       .get("http://localhost:3001/cart")
       .then((res) => {
-        if (!props.quantity) {
-          props.setQuantity(
-            res.data
-              .map((item: any) => item.quantity)
-              .reduce((acc: number, curr: number) => acc + curr, 0)
-          );
-        }
+        props.setQuantity(
+          res.data
+            .map((item: any) => item.quantity)
+            .reduce((acc: number, curr: number) => acc + curr, 0)
+        );
         props.setCartProducts(res.data);
       })
       .catch((err) => {
@@ -68,7 +66,7 @@ const ShoppingCartModal = (props: any) => {
           const updatedCartItems = [...props.cartProducts];
           updatedCartItems[index] = selectedCartItem;
           props.setCartProducts(updatedCartItems);
-          
+
           setClickedItemId(-1);
         })
         .catch((err) => {
@@ -100,7 +98,6 @@ const ShoppingCartModal = (props: any) => {
         setClickedItemId(-1);
       });
   };
-
   return (
     <>
       <label

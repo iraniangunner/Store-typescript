@@ -11,9 +11,11 @@ import CreateProduct from "./components/Create";
 import MarketPlace from "./components/Market";
 import ProductPage from "./components/ProductDetail";
 import ShoppingCart from "./components/ShoppingCartDetail";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ShoppingCartDetail from "./components/ShoppingCartDetail";
+// import toast, { Toaster } from 'react-hot-toast';
 
 function App() {
   const [quantity, setQuantity] = useState<number>(0);
@@ -37,7 +39,19 @@ function App() {
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/create" element={<CreateProduct />} />
         <Route path="/market-place" element={<MarketPlace />} />
-        <Route path="/shopping-cart" element={<ShoppingCart />} />
+        <Route
+          path="/shopping-cart"
+          element={
+            <ShoppingCartDetail
+              quantity={quantity}
+              setQuantity={setQuantity}
+              buttonStatus={buttonStatus}
+              setButtonStatus={setButtonStatus}
+              cartProducts={cartProducts}
+              setCartProducts={setCartProducts}
+            />
+          }
+        />
         <Route
           path="/product-details/:id"
           element={

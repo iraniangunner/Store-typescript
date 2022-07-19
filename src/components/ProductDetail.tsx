@@ -4,7 +4,6 @@ import { Link, useParams } from "react-router-dom";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import { toast } from "react-toastify";
-// import toast, { Toaster } from 'react-hot-toast';
 
 const ProductPage = (props: any) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
