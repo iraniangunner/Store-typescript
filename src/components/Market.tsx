@@ -27,7 +27,11 @@ const MarketPlace = () => {
   if (isLoading) {
     return (
       <main className="w-10/12 my-8 p-3 mx-auto min-h-[80vh]">
-        <Loader />
+        <div className="w-full p-6 flex flex-wrap">
+          {[1, 2, 3, 4, 5, 6, 7, 8].map((item: any) => (
+            <Loader />
+          ))}
+        </div>
       </main>
     );
   }
