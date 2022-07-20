@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState, useRef, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -42,24 +43,23 @@ const SignIn = () => {
   const submitHandler = async (e: any) => {
     e.preventDefault();
     try {
-      const response = await fetch(
+      const { data } = await axios.get(
         `http://localhost:5000/getOne/${formValues.email}`
       );
-      const record = await response.json();
+
       if (
-        formValues.email !== record?.email ||
-        formValues.passWord !== record.password
+        formValues.email !== data?.email ||
+        formValues.passWord !== data.password
       ) {
         toast.error("Email or password is not correct");
       } else {
-        // console.log(record.name)
-        dispatch(setEmail(record.email));
-        dispatch(setUsername(record.username));
-        // console.log("Success")
+        dispatch(setEmail(data.email));
+        dispatch(setUsername(data.username));
+
         navigate("/");
       }
-    } catch (error) {
-      alert(error);
+    } catch (error: any) {
+      alert(error.message);
     }
   };
 

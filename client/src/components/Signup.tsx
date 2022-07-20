@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 import { useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -46,27 +47,19 @@ const SignUp = () => {
     });
   };
 
-  // const submitHandler = (e: any) => {
-  //   e.preventDefault();
-  //   dispatch(setUsername(formValues.userName));
-  //   dispatch(setEmail(formValues.emailAddress));
-  //   dispatch(setPassword(formValues.passWord));
-  //   dispatch(setConfirm(formValues.passConfirmation));
-  // };
 
   const submitHandler = async (e: any) => {
     e.preventDefault();
     try {
-      const response = await fetch(
+      const { data } = await axios.get(
         `http://localhost:5000/getOne/${formValues.emailAddress.toString()}`
       );
-      const record = await response.json(); 
-      if (formValues.emailAddress == record?.email) {
+      if (formValues.emailAddress == data?.email) {
         toast.error("This Email is exist");
         return;
       }
-    } catch (error) {
-      alert(error);
+    } catch (error: any) {
+      alert(error.message);
       return;
     }
 
@@ -79,13 +72,10 @@ const SignUp = () => {
     };
 
     try {
-      await fetch("http://localhost:5000/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newPerson),
-      });
+      await axios.post(
+        "http://localhost:5000/signup",
+        JSON.stringify(newPerson)
+      );
       window.alert("success");
       setFormvalues({
         userName: "",
@@ -93,8 +83,8 @@ const SignUp = () => {
         emailAddress: "",
         passConfirmation: "",
       });
-    } catch (error) {
-      alert(error);
+    } catch (error: any) {
+      alert(error.message);
       return;
     }
 
