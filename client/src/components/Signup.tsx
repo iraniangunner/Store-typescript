@@ -56,14 +56,20 @@ const SignUp = () => {
 
   const submitHandler = async (e: any) => {
     e.preventDefault();
-    const response = await fetch(
-      `http://localhost:5000/getOne/${formValues.emailAddress.toString()}`
-    );
-    const record = await response.json();
-    if (formValues.emailAddress == record?.email) {
-      toast.error("This Email is exist");
+    try {
+      const response = await fetch(
+        `http://localhost:5000/getOne/${formValues.emailAddress.toString()}`
+      );
+      const record = await response.json(); 
+      if (formValues.emailAddress == record?.email) {
+        toast.error("This Email is exist");
+        return;
+      }
+    } catch (error) {
+      alert(error);
       return;
     }
+
     const newPerson = {
       email: formValues.emailAddress,
       username: formValues.userName,
@@ -72,18 +78,14 @@ const SignUp = () => {
       basket: [],
     };
 
-    const res = await fetch("http://localhost:5000/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newPerson),
-    }).catch((error) => {
-      window.alert(error);
-      return;
-    });
-
-    if (res?.status === 200) {
+    try {
+      await fetch("http://localhost:5000/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newPerson),
+      });
       window.alert("success");
       setFormvalues({
         userName: "",
@@ -91,7 +93,31 @@ const SignUp = () => {
         emailAddress: "",
         passConfirmation: "",
       });
+    } catch (error) {
+      alert(error);
+      return;
     }
+
+    // const res = await fetch("http://localhost:5000/signup", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(newPerson),
+    // }).catch((error) => {
+    //   window.alert(error);
+    //   return;
+    // });
+
+    // if (res?.status === 200) {
+    //   window.alert("success");
+    //   setFormvalues({
+    //     userName: "",
+    //     passWord: "",
+    //     emailAddress: "",
+    //     passConfirmation: "",
+    //   });
+    // }
   };
 
   return (

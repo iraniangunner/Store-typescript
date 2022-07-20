@@ -8,7 +8,7 @@ const SignIn = () => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   interface Form {
     email: string;
@@ -39,30 +39,27 @@ const SignIn = () => {
     });
   };
 
-  // const submitHandler = (e: any) => {
-  //   e.preventDefault();
-  //   // setFinalValues({
-  //   //   ...finalValues,
-  //   //   ...formValues,
-  //   // });
-  // };
   const submitHandler = async (e: any) => {
     e.preventDefault();
-    const response = await fetch(
-      `http://localhost:5000/getOne/${formValues.email}`
-    );
-    const record = await response.json();
-    if (
-      formValues.email !== record.email ||
-      formValues.passWord !== record.password
-    ) {
-      toast.error("Email or password is not correct");
-    } else {
-      console.log(record.name)
-      dispatch(setEmail(record.email));
-      dispatch(setUsername(record.username));
-      console.log("Success")
-      navigate("/")
+    try {
+      const response = await fetch(
+        `http://localhost:5000/getOne/${formValues.email}`
+      );
+      const record = await response.json();
+      if (
+        formValues.email !== record?.email ||
+        formValues.passWord !== record.password
+      ) {
+        toast.error("Email or password is not correct");
+      } else {
+        // console.log(record.name)
+        dispatch(setEmail(record.email));
+        dispatch(setUsername(record.username));
+        // console.log("Success")
+        navigate("/");
+      }
+    } catch (error) {
+      alert(error);
     }
   };
 

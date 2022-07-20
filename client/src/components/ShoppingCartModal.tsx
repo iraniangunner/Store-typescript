@@ -29,7 +29,7 @@ const ShoppingCartModal = (props: any) => {
       })
       .catch((err) => {
         // how to handle error?!
-        toast.error("Can not get your cart products!");
+        // toast.error("Can not get your cart products!");
       });
   }, []);
 
