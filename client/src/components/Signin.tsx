@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState, useRef, useEffect } from "react";
+import { RiEyeCloseFill } from "react-icons/ri";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -46,17 +47,24 @@ const SignIn = () => {
       const { data } = await axios.get(
         `http://localhost:5000/getOne/${formValues.email}`
       );
-
-      if (
-        formValues.email !== data?.email ||
-        formValues.passWord !== data.password
-      ) {
-        toast.error("Email or password is not correct");
-      } else {
+      // if (
+      //   formValues.email !== data?.email ||
+      //   formValues.passWord !== data?.password
+      // ) {
+      //   toast.error("Email or password is not correct");
+      // } else {
+      //   dispatch(setEmail(data.email));
+      //   dispatch(setUsername(data.username));
+      //   navigate("/");
+      // }
+      if (data && data.password === formValues.passWord) {
         dispatch(setEmail(data.email));
         dispatch(setUsername(data.username));
-
         navigate("/");
+      } else if (data && data.password !== formValues.passWord) {
+        toast.error("password is not correct");
+      } else {
+        toast.error("This email doesn't exist");
       }
     } catch (error: any) {
       alert(error.message);

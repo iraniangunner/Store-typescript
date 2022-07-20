@@ -47,15 +47,19 @@ const SignUp = () => {
     });
   };
 
-
   const submitHandler = async (e: any) => {
     e.preventDefault();
     try {
       const { data } = await axios.get(
-        `http://localhost:5000/getOne/${formValues.emailAddress.toString()}`
+        `http://localhost:5000/getOne/${formValues.emailAddress}`
       );
-      if (formValues.emailAddress == data?.email) {
+      // if (formValues.emailAddress === data?.email) {
+      //   toast.error("This Email is exist");
+      //   return;
+      // }
+      if (data) {
         toast.error("This Email is exist");
+        console.log(data)
         return;
       }
     } catch (error: any) {
