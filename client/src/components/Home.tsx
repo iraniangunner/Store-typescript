@@ -4,15 +4,7 @@ import wallet from "../images/wallet.png";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-
 const Home = () => {
-
-  // const[images , setImages] = useState([])
-
-  // useEffect(() => {
-  //     axios.get("http://localhost:3001/products/").then(res => console.log(res.data)).catch(err => console.log(err))
-  // },[])
-
   return (
     <>
       <div className="flex flex-col md:flex-row justify-center items-center">

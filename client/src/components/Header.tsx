@@ -17,7 +17,7 @@ const Header = (props: any) => {
     localStorage.getItem("theme") === "dark" ? true : false
   );
 
-  const { pathname } = useLocation();
+  // const { pathname } = useLocation();
   const username = useSelector((state: any) => state.profile.username);
   const email = useSelector((state: any) => state.profile.email);
 
@@ -31,9 +31,9 @@ const Header = (props: any) => {
     }
   }, [theme]);
 
-  useEffect(() => {
-    setIsOpen(false);
-  }, [pathname]);
+  // useEffect(() => {
+  //   setIsOpen(false);
+  // }, [pathname]);
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -83,7 +83,11 @@ const Header = (props: any) => {
           </div>
           <ul className="lg:hidden space-y-4 w-full">
             <li className="cursor-pointer hover:bg-gray-500 transition-all ease-linear duration-200 mx-3 p-3">
-              <Link to="/" className="block text-gray-900 dark:text-gray-50">
+              <Link
+                to="/"
+                className="block text-gray-900 dark:text-gray-50"
+                onClick={() => setIsOpen(false)}
+              >
                 Home
               </Link>
             </li>
@@ -91,6 +95,7 @@ const Header = (props: any) => {
               <Link
                 className="block text-gray-900 dark:text-gray-50"
                 to="/create"
+                onClick={() => setIsOpen(false)}
               >
                 Create
               </Link>
@@ -99,6 +104,7 @@ const Header = (props: any) => {
               <Link
                 className="block text-gray-900 dark:text-gray-50"
                 to="/market-place"
+                onClick={() => setIsOpen(false)}
               >
                 Marketplace
               </Link>
@@ -107,6 +113,7 @@ const Header = (props: any) => {
               <Link
                 to="/shopping-cart"
                 className="p-3 text-gray-900 dark:text-slate-50 relative cursor-pointer btn modal-button bg-slate-200 dark:bg-gray-700 dark:hover:bg-gray-600 border-none hover:bg-slate-300 transition-all"
+                onClick={() => setIsOpen(false)}
               >
                 <FaShoppingBag size={20} />
                 {props.quantity ? (
