@@ -1,8 +1,6 @@
 import bitcoin from "../images/bit.png";
 import bitATM from "../images/bit-ATM.png";
 import wallet from "../images/wallet.png";
-import { useEffect, useState } from "react";
-import axios from "axios";
 
 const Home = () => {
   return (

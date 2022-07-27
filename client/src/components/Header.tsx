@@ -17,6 +17,8 @@ const Header = (props: any) => {
     localStorage.getItem("theme") === "dark" ? true : false
   );
 
+  const [browserWidth, setBrowserWidth] = useState<number>(0);
+
   // const { pathname } = useLocation();
   const username = useSelector((state: any) => state.profile.username);
   const email = useSelector((state: any) => state.profile.email);
@@ -51,12 +53,26 @@ const Header = (props: any) => {
   }, [ref]);
 
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && browserWidth < 1024) {
       document.body.style.overflow = "hidden";
+    } else if (browserWidth >= 1024) {
+      setIsOpen(false);
+      document.body.style.overflow = "unset";
     } else {
       document.body.style.overflow = "unset";
     }
-  }, [isOpen]);
+    function handleResize() {
+      setBrowserWidth(window.innerWidth);
+    }
+
+    window.addEventListener("resize", handleResize);
+
+    handleResize();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [isOpen, browserWidth]);
 
   const themeSwitch = () => {
     setTheme(!theme);
@@ -174,7 +190,7 @@ pointer-events-none flex items-center justify-center h-[29px] w-[29px] rounded-f
           </ul>
         </div>
         <div
-          className={`fixed top-0 left-0 w-full h-full bg-[rgba(0,0,0,0.5)] ${
+          className={`lg:invisible fixed top-0 left-0 w-full h-full bg-[rgba(0,0,0,0.5)] ${
             isOpen ? "visible" : "invisible"
           }`}
         ></div>

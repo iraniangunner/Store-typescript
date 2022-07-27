@@ -1,6 +1,10 @@
 import { FaEthereum } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { LazyLoadImage } from "react-lazy-load-image-component";
+import {
+  LazyLoadComponent,
+  LazyLoadImage,
+} from "react-lazy-load-image-component";
+import LazyImage from "./LazyImage";
 
 const ProductCard = (props: any) => {
   return (
