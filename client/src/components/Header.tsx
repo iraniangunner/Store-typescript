@@ -9,6 +9,7 @@ import ShoppingCartModal from "./ShoppingCartModal";
 import { useSelector } from "react-redux";
 import { AiOutlineAlignLeft } from "react-icons/ai";
 import { IoMdClose } from "react-icons/io";
+import { quantity } from "../features/shoppingCart/shoppingCartSlice";
 
 const Header = (props: any) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -18,6 +19,8 @@ const Header = (props: any) => {
   );
 
   const [browserWidth, setBrowserWidth] = useState<number>(0);
+
+  const cartQuantity = useSelector(quantity);
 
   // const { pathname } = useLocation();
   const username = useSelector((state: any) => state.profile.username);
@@ -33,9 +36,6 @@ const Header = (props: any) => {
     }
   }, [theme]);
 
-  // useEffect(() => {
-  //   setIsOpen(false);
-  // }, [pathname]);
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -132,9 +132,9 @@ const Header = (props: any) => {
                 onClick={() => setIsOpen(false)}
               >
                 <FaShoppingBag size={20} />
-                {props.quantity ? (
+                {cartQuantity ? (
                   <span className="absolute text-white bg-red-600 rounded-full w-6 h-6 flex items-center justify-center text-xs -top-2 -right-2">
-                    {props.quantity}
+                    {cartQuantity}
                   </span>
                 ) : null}
               </Link>
@@ -222,13 +222,7 @@ pointer-events-none flex items-center justify-center h-[29px] w-[29px] rounded-f
               </Link>
             </li>
             <li className="flex justify-center items-center mx-2 rounded-lg">
-              <ShoppingCartModal
-                cartProducts={props.cartProducts}
-                setCartProducts={props.setCartProducts}
-                quantity={props.quantity}
-                setQuantity={props.setQuantity}
-                setButtonStatus={props.setButtonStatus}
-              />
+              <ShoppingCartModal />
             </li>
             <li className="flex justify-center items-center mx-2">
               <div className="text-base p-4">

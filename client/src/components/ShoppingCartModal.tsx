@@ -5,10 +5,31 @@ import { IoIosArrowForward } from "react-icons/io";
 import { BsTrash } from "react-icons/bs";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  buttonStatus,
+  setQuantity,
+  decreaseCartQuantity,
+  deleteProduct,
+  setButtonStatus,
+  changeProductQuantity,
+  increaseCartQuantity,
+  cartProducts,
+  quantity,
+  setCartProducts,
+} from "../features/shoppingCart/shoppingCartSlice";
 
 const ShoppingCartModal = (props: any) => {
   const [clickedItemId, setClickedItemId] = useState<number>(-1);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const status = useSelector(buttonStatus);
+
+  const products = useSelector(cartProducts);
+
+  const cartQuantity = useSelector(quantity);
+
+  const dispatch = useDispatch();
 
   const closeModal = () => {
     if (inputRef.current) {
@@ -20,12 +41,14 @@ const ShoppingCartModal = (props: any) => {
     axios
       .get("http://localhost:3001/cart")
       .then((res) => {
-        props.setQuantity(
-          res.data
-            .map((item: any) => item.quantity)
-            .reduce((acc: number, curr: number) => acc + curr, 0)
+        dispatch(
+          setQuantity(
+            res.data
+              .map((item: any) => item.quantity)
+              .reduce((acc: number, curr: number) => acc + curr, 0)
+          )
         );
-        props.setCartProducts(res.data);
+        dispatch(setCartProducts(res.data));
       })
       .catch((err) => {
         // how to handle error?!
@@ -39,12 +62,9 @@ const ShoppingCartModal = (props: any) => {
       axios
         .delete(`http://localhost:3001/cart/${id}`)
         .then((res) => {
-          props.setQuantity((prev: any) => prev - 1);
-          const updatedProducts = props.cartProducts.filter(
-            (item: any) => item.id !== id
-          );
-          props.setCartProducts(updatedProducts);
-          props.setButtonStatus("");
+          dispatch(decreaseCartQuantity());
+          dispatch(deleteProduct(id));
+          dispatch(setButtonStatus(""));
           setClickedItemId(-1);
         })
         .catch((err) => {
@@ -57,16 +77,8 @@ const ShoppingCartModal = (props: any) => {
           quantity: itemQuantity - 1,
         })
         .then((res) => {
-          props.setQuantity((prev: any) => prev - 1);
-          const index = props.cartProducts.findIndex(
-            (item: any) => item.id === id
-          );
-          const selectedCartItem = { ...props.cartProducts[index] };
-          selectedCartItem.quantity = res.data.quantity;
-          const updatedCartItems = [...props.cartProducts];
-          updatedCartItems[index] = selectedCartItem;
-          props.setCartProducts(updatedCartItems);
-
+          dispatch(decreaseCartQuantity());
+          dispatch(changeProductQuantity({ id: id, data: res.data.quantity }));
           setClickedItemId(-1);
         })
         .catch((err) => {
@@ -81,16 +93,8 @@ const ShoppingCartModal = (props: any) => {
     axios
       .patch(`http://localhost:3001/cart/${id}`, { quantity: itemQuantity + 1 })
       .then((res) => {
-        props.setQuantity((prev: any) => prev + 1);
-
-        const index = props.cartProducts.findIndex(
-          (item: any) => item.id === id
-        );
-        const selectedCartItem = { ...props.cartProducts[index] };
-        selectedCartItem.quantity = res.data.quantity;
-        const updatedCartItems = [...props.cartProducts];
-        updatedCartItems[index] = selectedCartItem;
-        props.setCartProducts(updatedCartItems);
+        dispatch(increaseCartQuantity());
+        dispatch(changeProductQuantity({ id: id, data: res.data.quantity }));
         setClickedItemId(-1);
       })
       .catch((err) => {
@@ -105,9 +109,9 @@ const ShoppingCartModal = (props: any) => {
         className="p-3 text-gray-900 dark:text-slate-50 relative cursor-pointer btn bg-slate-200 dark:bg-gray-700 dark:hover:bg-gray-600 border-none hover:bg-slate-300 transition-all"
       >
         <FaShoppingBag size={20} />
-        {props.quantity ? (
+        {cartQuantity ? (
           <span className="absolute text-white bg-red-600 rounded-full w-6 h-6 flex items-center justify-center text-xs -top-2 -right-2">
-            {props.quantity}
+            {cartQuantity}
           </span>
         ) : null}
       </label>
@@ -122,9 +126,9 @@ const ShoppingCartModal = (props: any) => {
           className="modal-box relative dark:text-white overflow-y-auto dark:bg-[rgba(12,36,63,1)]"
           htmlFor=""
         >
-          {props.cartProducts.length ? (
+          {products.length ? (
             <>
-              {props.cartProducts.map((item: any, index: number) => (
+              {products.map((item: any, index: number) => (
                 <div className="flex justify-between border-b p-2" key={index}>
                   <div className="flex-1">
                     <img

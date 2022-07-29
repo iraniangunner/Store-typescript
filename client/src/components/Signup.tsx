@@ -13,7 +13,7 @@ import {
   setPassword,
   setUsername,
   email,
-} from "../State/userSlice";
+} from "../features/registerForm/registerFormSlice";
 
 const SignUp = () => {
   const dispatch = useDispatch();
@@ -295,7 +295,6 @@ const SignUp = () => {
           );
         }}
       </Formik>
-
       <div className="flex justify-between flex-wrap w-6/12 md:w-5/12 lg:w-4/12 xl:w-3/12 mx-auto bg-[#f6f8fa] dark:bg-gray-700 px-[16px] py-[16px] border border-solid border-[#d0d7de] rounded-[6px] text-[14px]">
         <span className="dark:text-white">Already have an account?</span>
         <Link to="/sign-in" className="text-[#0969da]">

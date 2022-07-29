@@ -5,7 +5,7 @@ import { IoMdTrash } from "react-icons/io";
 import { RiErrorWarningLine } from "react-icons/ri";
 import ImageUploading, { ImageListType } from "react-images-uploading";
 import { useDispatch, useSelector } from "react-redux";
-import { product, setProduct } from "../State/formSlice";
+import { product, setProduct } from "../features/createForm/createFormSlice";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Resizer from "react-image-file-resizer";
@@ -13,7 +13,7 @@ import * as Yup from "yup";
 import { Formik } from "formik";
 import { toast } from "react-toastify";
 import { create, CID, IPFSHTTPClient } from "ipfs-http-client";
-import { email } from "../State/userSlice";
+import { email } from "../features/registerForm/registerFormSlice";
 
 const CreateProduct = () => {
   // const dispatch = useDispatch();

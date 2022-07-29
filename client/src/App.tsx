@@ -17,20 +17,9 @@ import ShoppingCartDetail from "./components/ShoppingCartDetail";
 // import toast, { Toaster } from 'react-hot-toast';
 
 function App() {
-  const [quantity, setQuantity] = useState<number>(0);
-  const [buttonStatus, setButtonStatus] = useState<string>("");
-  const [cartProducts, setCartProducts] = useState([]);
-
   return (
     <div className="App dark:bg-gray-900 dark:text-gray-50">
-      <Header
-        quantity={quantity}
-        setQuantity={setQuantity}
-        buttonStatus={buttonStatus}
-        setButtonStatus={setButtonStatus}
-        cartProducts={cartProducts}
-        setCartProducts={setCartProducts}
-      />
+      <Header />
       <ToastContainer />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -38,32 +27,8 @@ function App() {
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/create" element={<CreateProduct />} />
         <Route path="/market-place" element={<MarketPlace />} />
-        <Route
-          path="/shopping-cart"
-          element={
-            <ShoppingCartDetail
-              quantity={quantity}
-              setQuantity={setQuantity}
-              buttonStatus={buttonStatus}
-              setButtonStatus={setButtonStatus}
-              cartProducts={cartProducts}
-              setCartProducts={setCartProducts}
-            />
-          }
-        />
-        <Route
-          path="/product-details/:id"
-          element={
-            <ProductPage
-              quantity={quantity}
-              setQuantity={setQuantity}
-              buttonStatus={buttonStatus}
-              setButtonStatus={setButtonStatus}
-              cartProducts={cartProducts}
-              setCartProducts={setCartProducts}
-            />
-          }
-        />
+        <Route path="/shopping-cart" element={<ShoppingCartDetail />} />
+        <Route path="/product-details/:id" element={<ProductPage />} />
         <Route path="/pass-reset" element={<PasswordReset />} />
         <Route path="*" element={<NoPage />} />
       </Routes>

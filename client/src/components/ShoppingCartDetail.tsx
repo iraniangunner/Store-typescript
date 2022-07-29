@@ -2,22 +2,45 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { BsTrash } from "react-icons/bs";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  buttonStatus,
+  setQuantity,
+  decreaseCartQuantity,
+  deleteProduct,
+  setButtonStatus,
+  changeProductQuantity,
+  increaseCartQuantity,
+  cartProducts,
+  quantity,
+  setCartProducts,
+} from "../features/shoppingCart/shoppingCartSlice";
 
 const ShoppingCartDetail = (props: any) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isError, setIsError] = useState<boolean>(false);
   const [clickedItemId, setClickedItemId] = useState<number>(-1);
 
+  const status = useSelector(buttonStatus);
+
+  const products = useSelector(cartProducts);
+
+  const cartQuantity = useSelector(quantity);
+
+  const dispatch = useDispatch();
+
   useEffect(() => {
     axios
       .get("http://localhost:3001/cart")
       .then((res) => {
-        props.setQuantity(
-          res.data
-            .map((item: any) => item.quantity)
-            .reduce((acc: number, curr: number) => acc + curr, 0)
+        dispatch(
+          setQuantity(
+            res.data
+              .map((item: any) => item.quantity)
+              .reduce((acc: number, curr: number) => acc + curr, 0)
+          )
         );
-        props.setCartProducts(res.data);
+        dispatch(setCartProducts(res.data));
         setIsLoading(false);
       })
       .catch((err) => {
@@ -32,12 +55,9 @@ const ShoppingCartDetail = (props: any) => {
       axios
         .delete(`http://localhost:3001/cart/${id}`)
         .then((res) => {
-          props.setQuantity((prev: any) => prev - 1);
-          const updatedProducts = props.cartProducts.filter(
-            (item: any) => item.id !== id
-          );
-          props.setCartProducts(updatedProducts);
-          props.setButtonStatus("");
+          dispatch(decreaseCartQuantity());
+          dispatch(deleteProduct(id));
+          dispatch(setButtonStatus(""));
           setClickedItemId(-1);
         })
         .catch((err) => {
@@ -50,16 +70,8 @@ const ShoppingCartDetail = (props: any) => {
           quantity: itemQuantity - 1,
         })
         .then((res) => {
-          props.setQuantity((prev: any) => prev - 1);
-          const index = props.cartProducts.findIndex(
-            (item: any) => item.id === id
-          );
-          const selectedCartItem = { ...props.cartProducts[index] };
-          selectedCartItem.quantity = res.data.quantity;
-          const updatedCartItems = [...props.cartProducts];
-          updatedCartItems[index] = selectedCartItem;
-          props.setCartProducts(updatedCartItems);
-
+          dispatch(decreaseCartQuantity());
+          dispatch(changeProductQuantity({ id: id, data: res.data.quantity }));
           setClickedItemId(-1);
         })
         .catch((err) => {
@@ -74,16 +86,8 @@ const ShoppingCartDetail = (props: any) => {
     axios
       .patch(`http://localhost:3001/cart/${id}`, { quantity: itemQuantity + 1 })
       .then((res) => {
-        props.setQuantity((prev: any) => prev + 1);
-
-        const index = props.cartProducts.findIndex(
-          (item: any) => item.id === id
-        );
-        const selectedCartItem = { ...props.cartProducts[index] };
-        selectedCartItem.quantity = res.data.quantity;
-        const updatedCartItems = [...props.cartProducts];
-        updatedCartItems[index] = selectedCartItem;
-        props.setCartProducts(updatedCartItems);
+        dispatch(increaseCartQuantity());
+        dispatch(changeProductQuantity({ id: id, data: res.data.quantity }));
         setClickedItemId(-1);
       })
       .catch((err) => {
@@ -110,13 +114,13 @@ const ShoppingCartDetail = (props: any) => {
 
   return (
     <div className="w-full xl:w-10/12 p-3 sm:p-5 mx-auto min-h-[80vh]">
-      {props.cartProducts.length ? (
+      {products.length ? (
         <main className="flex flex-col md:flex-row md:items-start">
           <section className="w-full md:w-[60%] border rounded-md">
-            {props.cartProducts.map((item: any, index: number) => (
+            {products.map((item: any, index: number) => (
               <div
                 className={`flex ${
-                  index !== props.cartProducts.length - 1 && "border-b"
+                  index !== products.length - 1 && "border-b"
                 }  p-4 mt-2`}
                 key={index}
               >
@@ -158,10 +162,10 @@ const ShoppingCartDetail = (props: any) => {
             ))}
           </section>
           <section className="w-full md:w-[40%] md:ml-4 mt-4 md:mt-0 border rounded-md p-3">
-            <p className="mt-2">Total products : {props.quantity}</p>
+            <p className="mt-2">Total products : {cartQuantity}</p>
             <p className="mt-2">
               Total Price : &nbsp;
-              {props.cartProducts
+              {products
                 .map((item: any) => item.quantity * item.productPrice)
                 .reduce((acc: number, curr: number) => acc + curr, 0)
                 .toFixed(2)}

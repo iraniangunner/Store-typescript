@@ -4,7 +4,7 @@ import { RiEyeCloseFill } from "react-icons/ri";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { setEmail, setPassword, setUsername } from "../State/userSlice";
+import { setEmail, setPassword, setUsername } from "../features/registerForm/registerFormSlice";
 import * as Yup from "yup";
 import { Formik } from "formik";
 

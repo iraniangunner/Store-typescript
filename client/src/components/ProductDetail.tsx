@@ -4,10 +4,21 @@ import { Link, useParams } from "react-router-dom";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addProduct,
+  buttonStatus,
+  increaseCartQuantity,
+  setButtonStatus,
+} from "../features/shoppingCart/shoppingCartSlice";
 
 const ProductPage = (props: any) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isError, setIsError] = useState<boolean>(false);
+
+  const status = useSelector(buttonStatus);
+
+  const dispatch = useDispatch();
 
   interface Detail {
     productPrice: string;
@@ -26,7 +37,7 @@ const ProductPage = (props: any) => {
   const { id } = useParams();
 
   const addToCartHandler = (e: any) => {
-    props.setButtonStatus("pending");
+    dispatch(setButtonStatus("pending"));
     e.preventDefault();
     axios
       .post("http://localhost:3001/cart", {
@@ -36,13 +47,13 @@ const ProductPage = (props: any) => {
       })
       .then((res) => {
         toast.success("Successfully added to your cart!");
-        props.setQuantity((prevQuantity: number) => prevQuantity + 1);
-        props.setButtonStatus("success");
-        props.setCartProducts([...props.cartProducts, res.data]);
+        dispatch(increaseCartQuantity());
+        dispatch(setButtonStatus(""));
+        dispatch(addProduct(res.data));
       })
       .catch((err) => {
         toast.error("Sorry try again!");
-        props.setButtonStatus("");
+        dispatch(setButtonStatus(""));
       });
   };
 
@@ -65,8 +76,8 @@ const ProductPage = (props: any) => {
       .then((res) => {
         const availableIds = res.data.map((item: any) => item.id);
         availableIds.includes(id)
-          ? props.setButtonStatus("success")
-          : props.setButtonStatus("");
+          ? dispatch(setButtonStatus("success"))
+          : dispatch(setButtonStatus(""));
       })
       .catch((err) => {
         toast.error("can't get this product status!");
@@ -120,7 +131,7 @@ const ProductPage = (props: any) => {
             <p className="text-md mb-2">Description:</p>
             <p>{productDetails["productDesc"]}</p>
           </div>
-          {!props.buttonStatus ? (
+          {!status ? (
             <button
               type="button"
               className="mt-10 px-4 py-2 w-[40%] rounded-md bg-red-500 text-white hover:bg-red-700 transition-all"
@@ -128,7 +139,7 @@ const ProductPage = (props: any) => {
             >
               Add to cart
             </button>
-          ) : props.buttonStatus === "pending" ? (
+          ) : status === "pending" ? (
             <button
               disabled
               className="mt-10 px-4 py-2 w-[40%] rounded-md bg-red-300 text-white flex justify-center items-center cursor-not-allowed"
@@ -150,7 +161,7 @@ const ProductPage = (props: any) => {
                 />
               </svg>
             </button>
-          ) : props.buttonStatus === "success" ? (
+          ) : status === "success" ? (
             <Link
               to="/shopping-cart"
               className="block mt-10 px-4 py-2 w-[40%] rounded-md bg-green-500 text-white hover:bg-green-800 transition-all text-sm text-center"
