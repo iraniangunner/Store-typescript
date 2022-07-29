@@ -4,7 +4,6 @@ import {
   LazyLoadComponent,
   LazyLoadImage,
 } from "react-lazy-load-image-component";
-import LazyImage from "./LazyImage";
 
 const ProductCard = (props: any) => {
   return (

@@ -1,6 +1,5 @@
 import axios from "axios";
-import { useState, useRef, useEffect } from "react";
-import { RiEyeCloseFill } from "react-icons/ri";
+import { useRef, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";

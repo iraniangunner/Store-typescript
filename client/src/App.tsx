@@ -10,7 +10,6 @@ import PasswordReset from "./components/PassReset";
 import CreateProduct from "./components/Create";
 import MarketPlace from "./components/Market";
 import ProductPage from "./components/ProductDetail";
-import { useState } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ShoppingCartDetail from "./components/ShoppingCartDetail";
